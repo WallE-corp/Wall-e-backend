@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app" 
 import { getAnalytics } from "firebase/analytics" 
 var admin = require("firebase-admin") 
-var serviceAccount = require("./wall_e_db_private_key.json") // kontakt Ahmad if you want to gain access to file
+var serviceAccount = require("./wall_e_db_private_key.json") // contakt Ahmad if you want to gain access to the file
 
 module.exports = function (){
 
