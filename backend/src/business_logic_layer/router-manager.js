@@ -1,8 +1,4 @@
-module.exports = function ({ }){
+module.exports = function (){
+    return {}
 
-    return {
-
-        // you know what to do.
-
-    }
 }
