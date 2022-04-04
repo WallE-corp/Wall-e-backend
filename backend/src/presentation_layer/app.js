@@ -4,8 +4,8 @@ const awilix = require('awilix')
 
 
 //reposositories (replace the code below to our needs)
-const routerRepository = require('../DAL/router-repository')
-const routerManger = require ('../BLL/router-manager')
+const routerRepository = require('../data_access_layer/router-repository')
+const routerManger = require ('../business_logic_layer/router-manager')
 const routeRouter = require('./routers/router')
  
  
