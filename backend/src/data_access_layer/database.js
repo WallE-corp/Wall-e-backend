@@ -27,7 +27,7 @@ module.exports = function (){
           credential: admin.credential.cert(serviceAccount)
      }) 
 
-     this.exports.fireStore = admin.firestore() 
+     this.exports.firestore = admin.firestore() 
      this.exports.storage = admin.storage() 
      
      return this.exports
