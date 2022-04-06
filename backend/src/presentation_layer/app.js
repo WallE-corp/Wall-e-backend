@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const awilix = require('awilix')
-const db = require('../data_access_layer/database')
+require('../data_access_layer/database')
 
 
 //reposositories (replace the code below to our needs)
@@ -33,7 +33,7 @@ const point_router = container.resolve('pointRouter')
 // use the routes
 
 app.use('/', route_router)
-app.use('/point', point_router)
+app.use('/points', point_router)
 
 app.listen(8080, function () {
   console.log("Web application listening on port 3000.")
