@@ -1,24 +1,26 @@
 const admin = require("firebase-admin")
 
-module.exports = function ({ }) {
+module.exports = function () {
 
      return {
           /**
            * @param {Map<String, Any>[]} callback
            */
-          getAllPoints: function (callback) {
-               // db.firestore  === undifined
-               // console.log(db.firestore)
-               // console.log(typeof db.firestore)
+          getAllPoints:  function (callback) {
+               const docRef = admin.firestore().collection('maps');
+               docRef.get().then((docSnap)=> {
+                    if(docSnap.empty){
+                         callback('Doc does not exists', null)
+                    }else{
+                         let map = new Map()
+                         docSnap.forEach(doc => {
+                              map.set(doc.id ,doc.data())
+                         });
+                         callback(null, map)
+                    }
+               })
 
-               const docRef = admin.firestore().collection('WallE').doc('test');
-               docRef.set({
-                    first: 'Adasdaa',
-                    last: 'Lovelace',
-                    born: 2000
-               });
-
-          },
+          },  
 
           /**
            * @param {String} id 
