@@ -12,12 +12,12 @@ module.exports = function ({ }) {
                // console.log(db.firestore)
                // console.log(typeof db.firestore)
 
-               const docRef = admin.firestore().collection('WallE').doc('test');
-               docRef.set({
-                    first: 'Adasdaa',
-                    last: 'Lovelace',
-                    born: 2000
-               });
+               // const docRef = admin.firestore().collection('WallE').doc('test');
+               // docRef.set({
+               //      first: 'Adasdaa',
+               //      last: 'Lovelace',
+               //      born: 2000
+               // });
 
           },
 
@@ -30,27 +30,27 @@ module.exports = function ({ }) {
           },
 
           /**
-           * @param {String} date
-           * @param {String} imagePath
-           * @param {Map<Number>} cordinates 
-           * @param {String} time
+           * @param {Object} current
+           * @param {Map<Number>} coordinates 
            * @param {Map<String, Any>} callback
           */
 
-          addPoint: function (date, time, imagePath, cordinates, callback) {
+          addPoint: function (current, coordinates, callback) {
                const docRef = admin.firestore().collection('maps').doc('mapId')
                docRef.set({
-                    time: time,
-                    date: date,
-                    Image: imagePath,
-                    cordinates: cordinates
+                    points: [
+                         current = {
+                              time: current.time,
+                              date: current.date,
+                              coordinates: coordinates
+                         },
+                    ]
                }).then(() => {
-                    alert("point added")
-               }).catch((error) =>{
-                    alert("error")
-               })
+                    callback(null, 200)
+                   
+               }).catch((error) => {
+                    callback(error)
+               })    
           }
-
      }
-
 }
