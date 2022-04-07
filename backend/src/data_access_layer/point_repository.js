@@ -2,6 +2,7 @@ const admin = require("firebase-admin")
 
 module.exports = function ({ }) {
 
+
      return {
           /**
            * @param {Map<String, Any>[]} callback
@@ -29,14 +30,27 @@ module.exports = function ({ }) {
           },
 
           /**
-           * @param {number} x 
-           * @param {number} y
-           * @param {Date} dateTime
+           * @param {String} date
+           * @param {String} imagePath
+           * @param {Map<Number>} cordinates 
+           * @param {String} time
            * @param {Map<String, Any>} callback
           */
-          addPoint: function (x, y, dateTime, callback) {
 
+          addPoint: function (date, time, imagePath, cordinates, callback) {
+               const docRef = admin.firestore().collection('maps').doc('mapId')
+               docRef.set({
+                    time: time,
+                    date: date,
+                    Image: imagePath,
+                    cordinates: cordinates
+               }).then(() => {
+                    alert("point added")
+               }).catch((error) =>{
+                    alert("error")
+               })
           }
+
      }
 
 }
