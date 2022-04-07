@@ -14,7 +14,7 @@ module.exports = function () {
                     } else {
                          let pointMap = new Map()
                          docSnap.forEach(doc => {
-                              pointMap.set(doc.id, doc.data())
+                              pointMap.set(doc.id, doc.data().points)
                          });
                          callback(null, pointMap)
                     }
