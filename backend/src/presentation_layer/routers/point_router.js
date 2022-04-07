@@ -1,27 +1,28 @@
 const { response } = require('express')
 const express = require('express')
 
-module.exports = function ({ pointManager }){
+module.exports = function ({ pointManager }) {
 
     const router = express.Router()
-  
+
     router.get("/", (req, res) => {
-     console.log("Welcome")
+        console.log("Welcome")
     })
-    
+
     router.post('/addPoint', (req, res) => {
-        
-        
-        const x = req.body.x
-        const y = req.body.y
 
-        pointManager.addPoint(date, time, imagePath, {x,y}, function(errors) {
-            if(errors){ return res.status(500)}
-            res.status(200)
-            console.log("status ok")
-        })
+
+        var x = req.body
+
+        console.log(x)
+        res.sendStatus(200)
+        // pointManager.addPoint(date, time, imagePath, {x,y}, function(errors) {
+        //     if(errors){ return res.status(500)}
+        //     res.status(200)
+        //     console.log("status ok")
+        // })
     })
 
-   return router
-   
+    return router
+
 }
