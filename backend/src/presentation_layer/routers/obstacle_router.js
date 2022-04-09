@@ -2,7 +2,7 @@ const express = require("express")
 const multer = require("multer")
 const path = require("path")
 
-module.exports = () => {
+module.exports = ({ obstacleEventManager }) => {
   const router = express.Router()
   const multerStorageConfig = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -12,8 +12,11 @@ module.exports = () => {
   const multerUpload = multer({ storage: multerStorageConfig })
 
   router.put('/event', multerUpload.single('image'), (req, res, next) => {
-    console.log(req.file.fieldname)
-    console.log(req.body);
+    const obstacle_event_data = {
+      ...req.body,
+      tmpImageFilePath: req.file.path
+    }
+    obstacleEventManager.handle_obstacle_event(obstacle_event_data)
     res.status(201).send('OK');
   })
 
