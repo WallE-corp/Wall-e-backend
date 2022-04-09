@@ -21,24 +21,27 @@ module.exports = function ({ }) {
           },
 
           /**
-           * @param {number} x 
-           * @param {number} y
+           * @param {Map<Object, number>} coordinates
            * @param {String} mapId 
-           * @param {Map<Any, Any>} callback
+           * @param {void} callback
            */
-          getPointByCoordinate: function(mapId,x,y, callback) {
-               const docRef = admin.firestore().collection('maps').doc(mapId)
-
+          getPointByCoordinate: function(mapId,coordinates, callback) {
+               const docRef = admin.firestore().collection('maps',null).doc(mapId)
                docRef.get().then((map)=>{
                     const data = map.data()
                     if(data){
-                         for(let point of data ){
-                              if(point.coordinates.x == x && point.coordinates.y == y) callback(point)
+                         for(let point of data.points ){
+                              if(point.coordinates){
+                                   if(point.coordinates.x == coordinates.x && point.coordinates.y == coordinates.y) {
+                                        callback(null,point)
+                                        return
+                                   }  
+                              }  
                          }
                     }
-                    callback('PointNotFound')
+                    callback('PointNotFound',null)
                }).catch((error)=> {
-                    callback('DatabaseError')
+                    callback('DatabaseError',null)
                })
           },
 
