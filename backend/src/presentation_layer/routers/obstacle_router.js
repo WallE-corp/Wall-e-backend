@@ -12,6 +12,8 @@ module.exports = () => {
   const multerUpload = multer({ storage: multerStorageConfig })
 
   router.put('/event', multerUpload.single('image'), (req, res, next) => {
+    console.log(req.file.fieldname)
+    console.log(req.body);
     res.status(201).send('OK');
   })
 
