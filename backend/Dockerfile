@@ -8,7 +8,7 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY src/PL/app.js ./src/ 
+COPY src/presentation_layer/app.js ./src/ 
 
 COPY src src
 
