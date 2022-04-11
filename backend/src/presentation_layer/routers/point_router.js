@@ -11,7 +11,7 @@ module.exports = function ({ pointManager }){
     
     router.post('/addPoint', (req, res) => {
 
-        let date = new Date() 
+        let date = new Date()
 
         const current = {
             date: date.toISOString().split('T')[0],
@@ -21,12 +21,13 @@ module.exports = function ({ pointManager }){
         
         const x = req.body.x
         const y = req.body.y
+        const mapId = req.body.mapId
 
         console.log(x, y)
 
-        pointManager.addPoint(current, {x, y}, function(errors) {
+        pointManager.addPoint(mapId, current, {x, y}, function(errors) {
             if(errors){ return res.status(500)}
-            res.status(200)
+            res.status(201)
             console.log("status ok")
         })
     })

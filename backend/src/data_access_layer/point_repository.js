@@ -1,4 +1,5 @@
 const admin = require("firebase-admin")
+const db = admin.firestore()
 
 module.exports = function ({ }) {
 
@@ -35,22 +36,22 @@ module.exports = function ({ }) {
            * @param {Map<String, Any>} callback
           */
 
-          addPoint: function (current, coordinates, callback) {
-               const docRef = admin.firestore().collection('maps').doc('mapId')
-               docRef.set({
-                    points: [
-                         current = {
-                              time: current.time,
-                              date: current.date,
-                              coordinates: coordinates
-                         },
-                    ]
+          addPoint: function (mapId, current, coordinates, callback) {
+               const docRef = admin.firestore().collection('maps').doc(mapId)
+               docRef.update({
+                    
+                    points: admin.firestore.FieldValue.arrayUnion({
+                         time: current.time,
+                         date: current.date,
+                         coordinates: coordinates
+                    }),   
+
                }).then(() => {
                     callback(null, 200)
                    
                }).catch((error) => {
                     callback(error)
-               })    
+               })  
           }
      }
 }
