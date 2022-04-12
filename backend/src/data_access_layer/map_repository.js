@@ -9,13 +9,13 @@ module.exports = function () {
          */
         getAllMaps: function (callback) {
             const docRef = admin.firestore().collection('maps')
-            docRef.get().then((collections) => {
-                if (collections.empty) {
-                    callback('collection does not exists', null)
+            docRef.get().then((documents) => {
+                if (documents.empty) {
+                    callback(['documnetsNotFound'], null)
                 } else {
                     let map = new Map()
-                    collections.forEach(collection => {
-                        map.set(collection.id, collection.data())
+                    documents.forEach(document => {
+                        map.set(document.id, document.data())
                     });
                     callback(null, map)
                 }

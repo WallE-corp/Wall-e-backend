@@ -10,7 +10,7 @@ module.exports = function () {
                const docRef = admin.firestore().collection('maps');
                docRef.get().then((docSnap) => {
                     if (docSnap.empty) {
-                         callback('Doc does not exists', null)
+                         callback(['docNotFound'], null)
                     } else {
                          let pointMap = new Map()
                          docSnap.forEach(doc => {

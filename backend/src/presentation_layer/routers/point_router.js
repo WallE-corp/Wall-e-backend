@@ -1,18 +1,18 @@
 const express = require('express')
-module.exports = function ({pointRepository}){
+module.exports = function ({ pointRepository, pointManager }) {
 
     const router = express.Router()
-  
+
     router.get("/", (req, res) => {
-        pointRepository.getAllPoints((error, data) => {
-            if(!error)
-                console.log(data)
-            else 
-                console.log(error)
+        pointManager.getAllPoints((error, data) => {
+            if (error)
+                res.sendStatus(500).json(error)
+            else
+                res.sendStatus(200).json(data)
+
         })
 
-        res.sendStatus(200)
-    })   
-   return router
-   
+    })
+    return router
+
 }
