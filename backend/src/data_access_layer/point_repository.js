@@ -23,11 +23,28 @@ module.exports = function () {
           },
 
           /**
-           * @param {String} id 
-           * @param {Map<String, Any>} callback
+           * @param {Map<Object, number>} coordinates
+           * @param {String} mapId 
+           * @param {void} callback
            */
-          getPointById: function (id, callback) {
-
+          getPointByCoordinate: function(mapId,coordinates, callback) {
+               const docRef = admin.firestore().collection('maps',null).doc(mapId)
+               docRef.get().then((map)=>{
+                    const data = map.data()
+                    if(data){
+                         for(let point of data.points ){
+                              if(point.coordinates){
+                                   if(point.coordinates.x == coordinates.x && point.coordinates.y == coordinates.y) {
+                                        callback(null,point)
+                                        return
+                                   }  
+                              }  
+                         }
+                    }
+                    callback('PointNotFound',null)
+               }).catch((error)=> {
+                    callback('DatabaseError',null)
+               })
           },
 
           /**
