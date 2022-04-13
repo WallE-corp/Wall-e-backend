@@ -2,8 +2,8 @@
 module.exports = function ({ pointRepository }){
      return {
        
-        getAllPoints: function (callback) {
-            pointRepository.getAllPoints(callback)
+        getAllPathPoints: function (callback) {
+            pointRepository.getAllPathPoints(callback)
         },
 
         /**
