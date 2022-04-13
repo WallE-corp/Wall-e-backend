@@ -1,7 +1,17 @@
 const express = require('express')
+
 module.exports = function ({pointManager}){
 
     const router = express.Router()
+    
+     router.get("/", (req, res) => {
+        pointManager.getAllPoints((error, data) => {
+            if (error)
+                res.sendStatus(500).json(error)
+            else
+                res.sendStatus(200).json(data)
+
+        })
   
     router.get("/:mapId", (req, res) => {
         const mapId = req.params.mapId;
@@ -20,7 +30,6 @@ module.exports = function ({pointManager}){
             }
         })
     })
-    
-   return router
-   
+    return router
+
 }

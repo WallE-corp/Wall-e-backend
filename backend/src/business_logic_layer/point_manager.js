@@ -1,6 +1,10 @@
-module.exports = function ({pointRepository}){
-     return {
 
+module.exports = function ({ pointRepository }){
+     return {
+       
+        getAllPoints: function (callback) {
+            pointRepository.getAllPoints(callback)
+        }
 
         /**
          * @param {Map<Object, number>} coordinates
