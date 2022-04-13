@@ -4,7 +4,7 @@ module.exports = function ({ pointRepository }){
        
         getAllPoints: function (callback) {
             pointRepository.getAllPoints(callback)
-        }
+        },
 
         /**
          * @param {Map<Object, number>} coordinates
