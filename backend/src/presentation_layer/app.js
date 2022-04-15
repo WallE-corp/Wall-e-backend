@@ -15,6 +15,7 @@ const pointRouter = require('./routers/point_router')
 
 const obstacleRouter = require('./routers/obstacle_router')
 const obstacleEventManager = require('../business_logic_layer/obstacle_event_manager')
+const obstacleImageRepository = require('../data_access_layer/obstacle/obstacle_image_repository')
 
 
 // awilix containers
@@ -30,6 +31,7 @@ container.register('pointRouter', awilix.asFunction(pointRouter))
 
 container.register('obstacleRouter', awilix.asFunction(obstacleRouter))
 container.register('obstacleEventManager', awilix.asFunction(obstacleEventManager))
+container.register('obstacleImageRepository', awilix.asFunction(obstacleImageRepository))
 
 //container.register('db', awilix.asFunction(db))
 // resolve the containers
