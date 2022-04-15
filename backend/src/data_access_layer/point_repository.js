@@ -31,18 +31,15 @@ module.exports = function ({ }) {
           },
 
           /**
-           * @param {Object} current
            * @param {Map<Number>} coordinates 
            * @param {Map<String, Any>} callback
           */
 
-          addPoint: function (mapId, current, coordinates, callback) {
+          addPoint: function (mapId, coordinates, callback) {
                const docRef = admin.firestore().collection('maps').doc(mapId)
                docRef.update({
                     
                     points: admin.firestore.FieldValue.arrayUnion({
-                         time: current.time,
-                         date: current.date,
                          coordinates: coordinates
                     }),   
 

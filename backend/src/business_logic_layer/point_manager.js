@@ -1,9 +1,9 @@
 module.exports = function ({ pointRepository }){
      return {
          
-        addPoint: function(mapId, current, x, y, callback) {
-            if(!mapId || !current || !x || !y){ return }
-            pointRepository.addPoint(mapId, current, x, y, callback)
+        addPoint: function(mapId, x, y, callback) {
+            if(!mapId || !x || !y){ return }
+            pointRepository.addPoint(mapId, x, y, callback)
         }
      }
  }
