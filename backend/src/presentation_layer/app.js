@@ -2,7 +2,9 @@ const express = require('express')
 const app = express()
 const awilix = require('awilix')
 const bodyParser = require('body-parser')
+
 require('../data_access_layer/database')
+
 
 
 //reposositories (replace the code below to our needs)
@@ -42,6 +44,7 @@ const map_router = container.resolve('mapRouter')
 
 
 
+
 app.use(express.json());
 app.use(bodyParser.urlencoded({ 
   extended: false 
@@ -50,6 +53,7 @@ app.use(bodyParser.urlencoded({
 app.use('/', route_router)
 app.use('/pathpoints', point_router)
 app.use('/map', map_router)
+
 
 
 app.listen(8080, function () {

@@ -1,4 +1,6 @@
+const { response } = require('express')
 const express = require('express')
+
 
 module.exports = function ({pointManager}){
 
@@ -30,6 +32,19 @@ module.exports = function ({pointManager}){
             }
         })
     })
-    return router
+    
+    router.post('/', (req, res) => {
+        const x = req.body.x
+        const y = req.body.y
+
+        pointManager.addPoint({x, y}, function(errors) {
+            if(errors){ return res.status(500)}
+            res.status(201)
+            console.log("status ok")
+        })
+    })
+
+   return router
+   
 
 }
