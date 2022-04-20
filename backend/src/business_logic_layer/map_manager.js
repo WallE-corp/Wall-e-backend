@@ -1,8 +1,7 @@
-module.exports = function () {
+module.exports = function ({ mapRepository }) {
     return {
         getAllMaps: function (callback) {
-            pointRepository.getAllMaps(callback)
+            mapRepository.getAllMaps(callback)
         }
     }
-
 }

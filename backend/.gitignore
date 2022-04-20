@@ -1,2 +1,12 @@
 node_modules
 /src/data_access_layer/wall_e_db_private_key.json
+# Firebase local emulator configurations
+.firebaserc
+firebase-debug.log
+firebase.json
+firestore-debug.log
+firestore.indexes.json
+storage.rules
+firestore.rules
+ui-debug.log
+firebase-debug.log
