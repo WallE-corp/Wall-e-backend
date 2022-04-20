@@ -14,6 +14,7 @@ module.exports = function ({pointManager}){
                 res.sendStatus(200).json(data)
 
         })
+    })
   
     router.get("/:mapId", (req, res) => {
         const mapId = req.params.mapId;
@@ -46,5 +47,4 @@ module.exports = function ({pointManager}){
 
    return router
    
-
 }
