@@ -3,7 +3,6 @@ const express = require('express')
 const app = express()
 const awilix = require('awilix')
 const bodyParser = require('body-parser')
-const socketServer = require('./socketio/')
 
 require('../data_access_layer/database')
 
@@ -33,7 +32,7 @@ const point_router = container.resolve('pointRouter')
 const map_router = container.resolve('mapRouter')
 
 const server = require('http').createServer(app)
-socketServer(server)
+require('./socketio/')(server)
 
 app.use(express.json())
 app.use(bodyParser.urlencoded({

@@ -14,9 +14,19 @@ const commandFunctions = {}
 commandFunctions[REGISTRATION] = (client, { data }) => {
     switch (data.role) {
     case 'remote':
+        // TODO remove this
         remoteClientId = client.id
+        console.log('\n')
+        console.log('Client', client.id)
+        console.log('Registered as remote')
+        console.log(data)
         break
     case 'wall-e':
+        // TODO remove this
+        console.log('\n')
+        console.log('Client', client.id)
+        console.log('Registered as wall-e')
+        console.log(data)
         wallEClientId = client.id
         break
     default:
@@ -26,19 +36,15 @@ commandFunctions[REGISTRATION] = (client, { data }) => {
 }
 // Movement request
 commandFunctions[MOVEMENT] = (client, data) => {
-    console.log('\n')
-    console.log('Movement request from', client.id)
-    console.log('Current remote', remoteClientId)
-    console.log('Current walle', wallEClientId)
-    console.log(data)
     if (remoteClientId && client.id === remoteClientId && wallEClientId) {
-        io.to(wallEClientId).emit('message', data)
+        io.to(wallEClientId).emit('message', JSON.stringify(data))
     }
 }
 
 function onMessage (client, message) {
     try {
         const messageData = JSON.parse(message)
+        console.log(message)
         const commandFunction = commandFunctions[`${messageData.type}`]
         commandFunction(client, messageData)
     } catch (e) {
@@ -58,6 +64,7 @@ function init (server) {
     })
 
     io.on('connection', client => {
+        console.log('Client connected', client.id)
         addClient(client)
     })
 }
