@@ -17,8 +17,9 @@ Run all containers:
 Stop all containers with:
     `docker-compose down`
 
-### AWS
+### AWS Lightsail dev server
 
 For development testing without running locally, connect to development server running on AWS Lightsail at:
+    
     `13.53.112.155:8080`
 
