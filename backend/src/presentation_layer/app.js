@@ -3,6 +3,7 @@ const express = require('express')
 const app = express()
 const awilix = require('awilix')
 const bodyParser = require('body-parser')
+const socketIo = require('socket.io')
 
 require('../data_access_layer/database')
 
@@ -28,19 +29,32 @@ container.register('mapRouter', awilix.asFunction(mapRouter))
 // container.register('db', awilix.asFunction(db))
 // resolve the containers
 
-const route_router = container.resolve('routeRouter')
 const point_router = container.resolve('pointRouter')
 const map_router = container.resolve('mapRouter')
+
+const server = require('http').createServer(app)
+const io = socketIo(server, {
+    cors: {
+        origin: '*'
+    }
+})
+
+io.on('connection', client => {
+    console.log('Client connected')
+
+    client.on('message', data => {
+        console.log(JSON.parse(data))
+    })
+})
 
 app.use(express.json())
 app.use(bodyParser.urlencoded({
     extended: false
 }))
 // use the routes
-app.use('/', route_router)
 app.use('/pathpoints', point_router)
 app.use('/map', map_router)
 
-app.listen(8080, function () {
+server.listen(8080, function () {
     console.log("Web application listening on port 3000.")
 })
