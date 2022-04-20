@@ -9,17 +9,19 @@ Install docker:
 # Starting and Stopping Docker
 
 build the docker container:
-    `docker-compose up --build`
+    
+    $ docker-compose up --build
 
 Run all containers:
-    `docker-compose up`
+    
+    $ docker-compose up
 
 Stop all containers with:
-    `docker-compose down`
+    
+    $ docker-compose down
 
 ### AWS Lightsail dev server
 
 For development testing without running locally, connect to development server running on AWS Lightsail at:
-    
     `13.53.112.155:8080`
 
