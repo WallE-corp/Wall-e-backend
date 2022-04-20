@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const awilix = require('awilix')
 const bodyParser = require('body-parser')
-const socketIo = require('socket.io')
+const socketServer = require('./socketio/')
 
 require('../data_access_layer/database')
 
@@ -33,19 +33,7 @@ const point_router = container.resolve('pointRouter')
 const map_router = container.resolve('mapRouter')
 
 const server = require('http').createServer(app)
-const io = socketIo(server, {
-    cors: {
-        origin: '*'
-    }
-})
-
-io.on('connection', client => {
-    console.log('Client connected')
-
-    client.on('message', data => {
-        console.log(JSON.parse(data))
-    })
-})
+socketServer(server)
 
 app.use(express.json())
 app.use(bodyParser.urlencoded({
@@ -58,3 +46,5 @@ app.use('/map', map_router)
 server.listen(8080, function () {
     console.log("Web application listening on port 3000.")
 })
+
+module.exports.server = server
