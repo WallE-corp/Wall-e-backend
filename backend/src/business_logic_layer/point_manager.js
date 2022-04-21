@@ -1,10 +1,9 @@
 module.exports = function ({ pointRepository }){
      return {
-       
-        getAllPoints: function (callback) {
-            pointRepository.getAllPoints(callback)
-        },
-       
+              
+       getAllPathPoints: function (callback) {
+            pointRepository.getAllPathPoints(callback)
+        },       
        
        addPoint: function( coordinates, callback) {
             if( !coordinates.x || !coordinates.y){ return }

@@ -8,18 +8,18 @@ module.exports = function () {
           /**
            * @param {Map<String, Any>[]} callback
            */
-          getAllPoints: function (callback) {
-               const docRef = admin.firestore().collection('maps');
+          getAllPathPoints: function (callback) {
+               
+               const docRef = admin.firestore().collection('maps').doc("mapTest");
                docRef.get().then((docSnap) => {
                     if (docSnap.empty) {
-                         callback(['docNotFound'], null)
+                         callback('NoExistingMap', null)
                     } else {
-                         let pointMap = new Map()
-                         docSnap.forEach(doc => {
-                              pointMap.set(doc.id, doc.data().points)
-                         });
-                         callback(null, pointMap)
+               
+                         callback(null, docSnap.data().PathPoints)
                     }
+               }).catch((error) => {
+                    callback('InternalError', null)
                })
           },
 
@@ -29,7 +29,7 @@ module.exports = function () {
            * @param {void} callback
            */
           getPointByCoordinate: function(mapId,coordinates, callback) {
-               const docRef = admin.firestore().collection('maps',null).doc(mapId)
+               const docRef = admin.firestore().collection('maps').doc(mapId)
                docRef.get().then((map)=>{
                     const data = map.data()
                     if(data){

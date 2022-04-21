@@ -20,6 +20,10 @@ const mapRepository = require('../data_access_layer/map_repository')
 const mapManager = require('../business_logic_layer/map_manager')
 const mapRouter = require('./routers/map_router')
 
+const borderRepository = require('../data_access_layer/border_repository')
+const borderManager = require('../business_logic_layer/border_manager')
+const borderRouter = require('./routers/border_router')
+
 // awilix containers
 const container = awilix.createContainer()
 
@@ -31,6 +35,10 @@ container.register('pointRepository', awilix.asFunction(pointRepository))
 container.register('pointManager', awilix.asFunction(pointManager))
 container.register('pointRouter', awilix.asFunction(pointRouter))
 
+container.register('borderRepository', awilix.asFunction(borderRepository))
+container.register('borderManager', awilix.asFunction(borderManager))
+container.register('borderRouter', awilix.asFunction(borderRouter))
+
 container.register('mapRepository', awilix.asFunction(mapRepository))
 container.register('mapManager', awilix.asFunction(mapManager))
 container.register('mapRouter', awilix.asFunction(mapRouter))
@@ -41,6 +49,8 @@ container.register('mapRouter', awilix.asFunction(mapRouter))
 const route_router = container.resolve('routeRouter')
 const point_router = container.resolve('pointRouter')
 const map_router = container.resolve('mapRouter')
+const border_router = container.resolve('borderRouter')
+
 
 const cors = require('cors')
 app.use(cors({ origin: '*' }))
@@ -53,6 +63,8 @@ app.use(bodyParser.urlencoded({
 // use the routes
 app.use('/', route_router)
 app.use('/pathpoints', point_router)
+app.use('/borderpoints', border_router)
+
 app.use('/map', map_router)
 
 

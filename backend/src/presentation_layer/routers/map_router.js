@@ -6,9 +6,9 @@ module.exports = function ({ mapRepository, mapManager }) {
     router.get("/", (req, res) => {
         mapManager.getAllMaps((error, documents) => { //Use Manager instead of Repository
             if (error)
-                res.sendStatus(400).json(error)
+                res.status(400).json(error)
             else
-                res.sendStatus(200).json(documents)
+                res.status(200).json(documents)
         })
     })
     return router
