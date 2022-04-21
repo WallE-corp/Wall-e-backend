@@ -34,7 +34,6 @@ container.register('mapRouter', awilix.asFunction(mapRouter))
 
 const point_router = container.resolve('pointRouter')
 const map_router = container.resolve('mapRouter')
-const border_router = container.resolve('borderRouter')
 
 
 const cors = require('cors')
