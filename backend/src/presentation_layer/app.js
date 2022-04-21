@@ -2,7 +2,9 @@ const express = require('express')
 const app = express()
 const awilix = require('awilix')
 const bodyParser = require('body-parser')
+
 require('../data_access_layer/database')
+
 
 
 //reposositories (replace the code below to our needs)
@@ -50,6 +52,8 @@ const map_router = container.resolve('mapRouter')
 const border_router = container.resolve('borderRouter')
 
 
+const cors = require('cors')
+app.use(cors({ origin: '*' }))
 
 
 app.use(express.json());
@@ -62,6 +66,7 @@ app.use('/pathpoints', point_router)
 app.use('/borderpoints', border_router)
 
 app.use('/map', map_router)
+
 
 
 app.listen(8080, function () {

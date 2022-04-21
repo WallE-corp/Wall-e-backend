@@ -1,9 +1,13 @@
-
 module.exports = function ({ pointRepository }){
      return {
-       
-        getAllPathPoints: function (callback) {
+              
+       getAllPathPoints: function (callback) {
             pointRepository.getAllPathPoints(callback)
+        },       
+       
+       addPoint: function( coordinates, callback) {
+            if( !coordinates.x || !coordinates.y){ return }
+            pointRepository.addPoint( coordinates ,callback)
         },
 
         /**
