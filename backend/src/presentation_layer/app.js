@@ -32,7 +32,6 @@ container.register('mapRouter', awilix.asFunction(mapRouter))
 //container.register('db', awilix.asFunction(db))
 // resolve the containers
 
-const route_router = container.resolve('routeRouter')
 const point_router = container.resolve('pointRouter')
 const map_router = container.resolve('mapRouter')
 const border_router = container.resolve('borderRouter')
