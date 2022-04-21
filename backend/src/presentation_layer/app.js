@@ -8,7 +8,6 @@ require('../data_access_layer/database')
 
 
 //reposositories (replace the code below to our needs)
-
 const pointRepository = require('../data_access_layer/point_repository')
 const pointManager = require('../business_logic_layer/point_manager')
 const pointRouter = require('./routers/point_router')
@@ -21,11 +20,9 @@ const mapRouter = require('./routers/map_router')
 const container = awilix.createContainer()
 
 
-
 container.register('pointRepository', awilix.asFunction(pointRepository))
 container.register('pointManager', awilix.asFunction(pointManager))
 container.register('pointRouter', awilix.asFunction(pointRouter))
-
 
 
 container.register('mapRepository', awilix.asFunction(mapRepository))
