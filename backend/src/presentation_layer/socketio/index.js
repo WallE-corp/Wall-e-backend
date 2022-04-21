@@ -1,5 +1,15 @@
 const socketIo = require('socket.io')
 
+/**
+ * Because of how sockets works either we can either
+ * choose to support clusters of node server
+ * which here means that all running instances of this application
+ * will share remote and wall-e clients
+ *  !!! WHICH WOULD BE THE BEST OPTION IRL BUUUUUUUTTTT !!!
+ * I'm too lazy to learn how to do that and i don't think
+ * we'll be running more than one instance of this application anyway
+ */
+
 // Enums -------------
 const MOVEMENT = 4
 const REGISTRATION = 6
