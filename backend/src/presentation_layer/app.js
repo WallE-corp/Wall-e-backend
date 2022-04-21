@@ -45,9 +45,7 @@ app.use(bodyParser.urlencoded({
   extended: false 
 }))
 // use the routes
-app.use('/', route_router)
 app.use('/pathpoints', point_router)
-app.use('/borderpoints', border_router)
 
 app.use('/map', map_router)
 
