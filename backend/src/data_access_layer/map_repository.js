@@ -21,5 +21,19 @@ module.exports = function () {
                 }
             })
         },
+        
+        getMapById: function (id, callback) {
+            const docRef = admin.firestore().collection('maps')
+            docRef.doc(id).get().then((document) => {
+                if (document.empty) {
+                    callback(['documnetNotFound'], null)
+                } else {
+                    let map = new Map()
+                    map.set(document.data())
+                    callback(null, map)
+                }
+                    
+            })
+        }   
     }
 }
