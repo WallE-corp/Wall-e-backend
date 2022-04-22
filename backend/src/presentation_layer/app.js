@@ -32,7 +32,9 @@ const point_router = container.resolve('pointRouter')
 const map_router = container.resolve('mapRouter')
 
 const server = require('http').createServer(app)
-require('./socketio/')(server)
+const SocketIOServer = require('./socketio/')
+const socketServer = new SocketIOServer()
+socketServer.initialize(server)
 
 app.use(express.json())
 app.use(bodyParser.urlencoded({
