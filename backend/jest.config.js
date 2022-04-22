@@ -4,6 +4,7 @@
  */
 
 module.exports = {
+    injectGlobals: true,
     // All imported modules in your tests should be mocked automatically
     // automock: false,
 
@@ -31,7 +32,7 @@ module.exports = {
     // ],
 
     // Indicates which provider should be used to instrument code for coverage
-    coverageProvider: "v8"
+    coverageProvider: "v8",
 
     // A list of reporter names that Jest uses when writing coverage reports
     // coverageReporters: [
@@ -71,14 +72,14 @@ module.exports = {
     // ],
 
     // An array of file extensions your modules use
-    // moduleFileExtensions: [
-    //   "js",
-    //   "jsx",
-    //   "ts",
-    //   "tsx",
-    //   "json",
+    moduleFileExtensions: [
+        "js",
+        //   "jsx",
+        //   "ts",
+        //   "tsx",
+        "json"
     //   "node"
-    // ],
+    ],
 
     // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
     // moduleNameMapper: {},
@@ -114,7 +115,7 @@ module.exports = {
     // restoreMocks: false,
 
     // The root directory that Jest should scan for tests and modules within
-    // rootDir: undefined,
+    rootDir: "testing"
 
     // A list of paths to directories that Jest should use to search for files in
     // roots: [

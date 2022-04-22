@@ -16,7 +16,7 @@ const REGISTRATION = 6
 //
 
 class SocketIOServer {
-    constructor () {
+    constructor (httpServer) {
         this.io = null
         this.remoteClientId = null
         this.wallEClientId = null
@@ -66,8 +66,6 @@ class SocketIOServer {
     onMessage (client, message) {
         try {
             const messageData = JSON.parse(message)
-            console.log(message)
-            console.log(this.commandFunctions)
             const commandFunction = this.commandFunctions[`${messageData.type}`]
             commandFunction(client, messageData)
         } catch (e) {
