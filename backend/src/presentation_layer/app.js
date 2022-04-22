@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 
 require('../data_access_layer/database')
 
+// reposositories (replace the code below to our needs)
 const pointRepository = require('../data_access_layer/point_repository')
 const pointManager = require('../business_logic_layer/point_manager')
 const pointRouter = require('./routers/point_router')
@@ -39,6 +40,8 @@ const socketIOServer = container.resolve('SocketIOServer')
 const server = require('http').createServer(app)
 
 socketIOServer.initialize(server)
+const cors = require('cors')
+app.use(cors({ origin: '*' }))
 
 app.use(express.json())
 app.use(bodyParser.urlencoded({
@@ -46,6 +49,7 @@ app.use(bodyParser.urlencoded({
 }))
 // use the routes
 app.use('/pathpoints', point_router)
+
 app.use('/map', map_router)
 
 server.listen(8080, function () {

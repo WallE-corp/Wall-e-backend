@@ -4,8 +4,12 @@ module.exports = function ({ pointManager }) {
     const router = express.Router()
 
     router.get("/", (req, res) => {
-        pointManager.getAllPoints((error, data) => {
-            if (error) { res.sendStatus(500).json(error) } else { res.sendStatus(200).json(data) }
+        pointManager.getAllPathPoints((error, data) => {
+            if (error) {
+                res.status(500).json(error)
+            } else {
+                res.status(200).json(data)
+            }
         })
     })
 
