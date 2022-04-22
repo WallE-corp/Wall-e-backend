@@ -14,6 +14,8 @@ const mapRepository = require('../data_access_layer/map_repository')
 const mapManager = require('../business_logic_layer/map_manager')
 const mapRouter = require('./routers/map_router')
 
+const SocketIOServer = require('./socketio/')
+
 // awilix containers
 const container = awilix.createContainer()
 
@@ -25,16 +27,18 @@ container.register('mapRepository', awilix.asFunction(mapRepository))
 container.register('mapManager', awilix.asFunction(mapManager))
 container.register('mapRouter', awilix.asFunction(mapRouter))
 
+container.register('SocketIOServer', awilix.asClass(SocketIOServer))
+
 // container.register('db', awilix.asFunction(db))
 // resolve the containers
 
 const point_router = container.resolve('pointRouter')
 const map_router = container.resolve('mapRouter')
+const socketIOServer = container.resolve('SocketIOServer')
 
 const server = require('http').createServer(app)
-const SocketIOServer = require('./socketio/')
-const socketServer = new SocketIOServer()
-socketServer.initialize(server)
+
+socketIOServer.initialize(server)
 
 app.use(express.json())
 app.use(bodyParser.urlencoded({
