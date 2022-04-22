@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 
 require('../data_access_layer/database')
 
-// reposositories (replace the code below to our needs)
+//reposositories (replace the code below to our needs)
 const pointRepository = require('../data_access_layer/point_repository')
 const pointManager = require('../business_logic_layer/point_manager')
 const pointRouter = require('./routers/point_router')
