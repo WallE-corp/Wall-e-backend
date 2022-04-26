@@ -1,3 +1,7 @@
+const fs = require('fs')
+const { fileURLToPath } = require('url')
+
+
 module.exports = function ({ pointRepository }) {
     return {
 
@@ -5,28 +9,37 @@ module.exports = function ({ pointRepository }) {
             pointRepository.getAllPathPoints(callback)
         },
 
-
+        /**
+         * 
+         * @param {Map<Object, any>} point 
+         * @param { void } callback 
+         */
         managePoint: function (point, callback) {
             if (Object.keys(point).empty) {
-                callback('pointEmpty', null)
-            } else {
-                pointRepository.getAllPathPoints((error, points) => {
+                callback('PointEmpty', null)
+            }else if (!point.x || !point.y) {
+                callback('InvalidCoordinates', null)
+            }  else {
+                const filePath = './backend/src/data_access_layer/last_point.json'
+                let lastPoint
+                if(fs.existsSync(filePath)){
+                    lastPoint = fs.readFileSync( filePath)
+                    lastPoint = JSON.parse(lastPoint)
+                    lastPoint.x = point.x + lastPoint.x
+                    lastPoint.y = point.y + lastPoint.y
+                }else{
+                    lastPoint = point
+                }      
+
+                let data = JSON.stringify(lastPoint, null, 2);
+                
+                fs.writeFile(filePath, data, (error) => {
                     if (error) {
-                        callback(error, null)
+                        callback('CouldNotWriteToFile',null)
+                        return
                     }
-                    else {
-                        // Get last Point
-                        let lastPoint = points[points.length - 1]
-                        // Update x value in the point
-                        point.x = point.x + lastPoint.x
-                        // Update x value in the point
-                        point.y = point.y + lastPoint.y
-                        // Callback the updated point
-                        callback(null, point)
-
-                    }
+                    callback(null,lastPoint)
                 })
-
             }
         },
         addPoint: function (coordinates, callback) {

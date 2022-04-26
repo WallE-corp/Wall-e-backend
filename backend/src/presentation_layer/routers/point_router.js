@@ -36,14 +36,26 @@ module.exports = function ({ pointManager }) {
     })
 
     router.post('/', (req, res) => {
-        const x = req.body.x
-        const y = req.body.y
 
-        pointManager.addPoint({ x, y }, function (errors) {
-            if (errors) { return res.status(500) }
-            res.status(201)
-            console.log("status ok")
+        const point = {
+            x: 1, 
+            y: 2
+        }
+        pointManager.managePoint(point, function(error, managedPoint){
+            if(error){
+                res.status(404).json(error)
+            }else{
+                
+                pointManager.addPoint(managedPoint, function (errors) {
+                    if (errors) { 
+                        res.status(500).send(errors) 
+                        return
+                    }
+                    res.sendStatus(201)
+                })
+            }
         })
+      
     })
 
     return router

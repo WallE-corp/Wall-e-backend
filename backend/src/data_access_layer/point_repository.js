@@ -54,7 +54,7 @@ module.exports = function () {
           */
 
           addPoint: function (coordinates, callback) {
-               const docRef = admin.firestore().collection('maps').doc('map')
+               const docRef = admin.firestore().collection('maps').doc('mapTest')
                docRef.update({
                     
                     points: admin.firestore.FieldValue.arrayUnion({
