@@ -43,6 +43,7 @@ container.register('mapRepository', awilix.asFunction(mapRepository))
 container.register('mapManager', awilix.asFunction(mapManager))
 container.register('mapRouter', awilix.asFunction(mapRouter))
 
+
 //container.register('db', awilix.asFunction(db))
 // resolve the containers
 
@@ -60,7 +61,6 @@ app.use(bodyParser.urlencoded({
 }))
 // use the routes
 app.use('/pathpoints', point_router)
-
 app.use('/map', map_router)
 
 
