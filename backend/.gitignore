@@ -10,3 +10,5 @@ storage.rules
 firestore.rules
 ui-debug.log
 firebase-debug.log
+
+.env

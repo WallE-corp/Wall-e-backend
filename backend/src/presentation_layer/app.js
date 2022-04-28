@@ -11,6 +11,7 @@ const container = require('./awilix.container')
 const point_router = container.resolve('pointRouter')
 const map_router = container.resolve('mapRouter')
 const socketIOServer = container.resolve('SocketIOServer')
+const obstacle_router = container.resolve('obstacleRouter')
 
 const server = require('http').createServer(app)
 
@@ -25,9 +26,10 @@ app.use(bodyParser.urlencoded({
 // use the routes
 app.use('/pathpoints', point_router)
 app.use('/map', map_router)
+app.use('/obstacle', obstacle_router)
 
-server.listen(8080, function () {
-    console.log("Web application listening on port 3000.")
+app.listen(8080, function () {
+  console.log("Web application listening on port 3000.")
 })
 
 module.exports.server = server
