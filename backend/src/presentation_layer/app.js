@@ -1,38 +1,13 @@
+require('dotenv').config()
 /* eslint-disable camelcase */
 const express = require('express')
 const app = express()
-const awilix = require('awilix')
 const bodyParser = require('body-parser')
-
 require('../data_access_layer/database')
 
-//reposositories (replace the code below to our needs)
-const pointRepository = require('../data_access_layer/point_repository')
-const pointManager = require('../business_logic_layer/point_manager')
-const pointRouter = require('./routers/point_router')
+const container = require('./awilix.container')
 
-const mapRepository = require('../data_access_layer/map_repository')
-const mapManager = require('../business_logic_layer/map_manager')
-const mapRouter = require('./routers/map_router')
-
-const SocketIOServer = require('./socketio/')
-
-// awilix containers
-const container = awilix.createContainer()
-
-container.register('pointRepository', awilix.asFunction(pointRepository))
-container.register('pointManager', awilix.asFunction(pointManager))
-container.register('pointRouter', awilix.asFunction(pointRouter))
-
-container.register('mapRepository', awilix.asFunction(mapRepository))
-container.register('mapManager', awilix.asFunction(mapManager))
-container.register('mapRouter', awilix.asFunction(mapRouter))
-
-container.register('SocketIOServer', awilix.asClass(SocketIOServer))
-
-// container.register('db', awilix.asFunction(db))
 // resolve the containers
-
 const point_router = container.resolve('pointRouter')
 const map_router = container.resolve('mapRouter')
 const socketIOServer = container.resolve('SocketIOServer')
