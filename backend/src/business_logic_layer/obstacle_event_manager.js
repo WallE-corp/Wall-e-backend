@@ -1,17 +1,14 @@
-module.exports = ({ obstacleImageRepository }) => {
+module.exports = ({  }) => {
   return {
     handle_obstacle_event: (obstacle_event_data) => {
       const {tmpImageFilePath} = obstacle_event_data
-      console.log(obstacle_event_data);
+      
+      // [Du Won] Store image in Cloud Storage 
+      
 
-      // Begin async request to classify image
+      // [Ahmad] Begin async request to classify image
 
-      // Store image in Cloud Storage
-      obstacleImageRepository.uploadImage(tmpImageFilePath)
       // Create an obstacle event document in Cloud Firestore
-
-      // await async request to classify image
-      // update obstacle event document with classification result
 
       // notify mobile of obstacle event
     }
