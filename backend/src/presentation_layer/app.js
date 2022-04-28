@@ -29,7 +29,7 @@ app.use('/map', map_router)
 app.use('/obstacle', obstacle_router)
 
 app.listen(8080, function () {
-  console.log("Web application listening on port 3000.")
+    console.log("Web application listening on port 3000.")
 })
 
 module.exports.server = server
