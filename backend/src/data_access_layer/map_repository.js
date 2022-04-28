@@ -1,7 +1,6 @@
 const admin = require("firebase-admin")
 
 module.exports = function () {
-
     return {
 
         /**
@@ -13,13 +12,13 @@ module.exports = function () {
                 if (documents.empty) {
                     callback(['documnetsNotFound'], null)
                 } else {
-                    let map = new Map()
+                    const map = new Map()
                     documents.forEach(document => {
                         map.set(document.id, document.data())
-                    });
+                    })
                     callback(null, map)
                 }
             })
-        },
+        }
     }
 }
