@@ -49,8 +49,8 @@ module.exports = function ({ pointRepository }) {
 
         /**
          * @param {Map<Object, number>} coordinates
-         * @param {String} mapId 
-         * @param {void} callback 
+         * @param {String} mapId
+         * @param {void} callback
          */
         getPointByCoordinateManager: function (mapId, coordinates, callback) {
             if (mapId.length == 0) callback('InvalidMapId', null)
@@ -62,5 +62,4 @@ module.exports = function ({ pointRepository }) {
         }
 
     }
-
 }

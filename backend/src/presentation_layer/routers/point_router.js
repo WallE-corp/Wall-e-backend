@@ -1,4 +1,3 @@
-const { response } = require('express')
 const express = require('express')
 
 
@@ -25,7 +24,6 @@ module.exports = function ({ pointManager }) {
             y: parseFloat(req.body.y)
         }
 
-
         pointManager.getPointByCoordinateManager(mapId, coordinates, function (error, point) {
             if (error) {
                 res.status(500).json(error)
@@ -38,8 +36,8 @@ module.exports = function ({ pointManager }) {
     router.post('/', (req, res) => {
 
         const point = {
-            x: 1, 
-            y: 2
+            x: parseFloat(req.body.x),
+            y: parseFloat(req.body.y)
         }
         pointManager.managePoint(point, function(error, managedPoint){
             if(error){
@@ -59,5 +57,4 @@ module.exports = function ({ pointManager }) {
     })
 
     return router
-
 }
