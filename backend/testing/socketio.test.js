@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 const EventEmitter = require('events')
 const SocketIOServer = require("../src/presentation_layer/socketio")
 

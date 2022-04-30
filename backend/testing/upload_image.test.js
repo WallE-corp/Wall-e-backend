@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 require('dotenv').config()
 const uploadImage = require('../src/business_logic_layer/utility/upload_image')
 const { Storage } = require('@google-cloud/storage')
