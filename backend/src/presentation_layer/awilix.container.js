@@ -1,5 +1,13 @@
 const awilix = require('awilix')
 
+// awilix containers
+const container = awilix.createContainer()
+
+// Get db connection
+const getDbConnection = require('../data_access_layer/database')
+const db = getDbConnection()
+container.register('db', awilix.asValue(db))
+
 // reposositories (replace the code below to our needs)
 const pointRepository = require('../data_access_layer/point_repository')
 const pointManager = require('../business_logic_layer/point_manager')
@@ -13,9 +21,6 @@ const obstacleRouter = require('./routers/obstacle_router')
 const obstableEventManager = require('../business_logic_layer/obstacle_event_manager')
 
 const SocketIOServer = require('./socketio/')
-
-// awilix containers
-const container = awilix.createContainer()
 
 container.register('pointRepository', awilix.asFunction(pointRepository))
 container.register('pointManager', awilix.asFunction(pointManager))

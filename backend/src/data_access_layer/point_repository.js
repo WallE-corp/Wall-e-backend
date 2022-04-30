@@ -1,7 +1,6 @@
 const admin = require("firebase-admin")
-const db = admin.firestore()
 
-module.exports = function () {
+module.exports = function ({ db }) {
     return {
         /**
            * @param {Map<String, Any>[]} callback
@@ -38,14 +37,6 @@ module.exports = function () {
                         }
                     }
                 }
-                /* for (const point of data.points) {
-                    if (point.coordinates) {
-                        if (point.coordinates.x ==== coordinates.x && point.coordinates.y ==== coordinates.y) {
-                            callback(null, point)
-                            return
-                        }
-                    }
-                } */
                 callback('PointNotFound', null)
             }).catch(() => {
                 callback('DatabaseError', null)
@@ -58,7 +49,7 @@ module.exports = function () {
           */
 
         addPoint: function (coordinates, callback) {
-            const docRef = admin.firestore().collection('maps').doc('map')
+            const docRef = db.collection('maps').doc('map')
             docRef.update({
 
                 points: admin.firestore.FieldValue.arrayUnion({

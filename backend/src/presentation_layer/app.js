@@ -3,7 +3,6 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-require('../data_access_layer/database')
 
 const container = require('./awilix.container')
 
