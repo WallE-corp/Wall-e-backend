@@ -13,7 +13,7 @@ describe('Upload Image to Cloud', () => {
 
     it('Should upload image and return its destination', async () => {
         // Given
-        const imagePath = path.join(__dirname, '/gucci.png')
+        const imagePath = path.join(__dirname, '/__testing_data__/gucci.png')
 
         // When
         const result = await _uploadImage(imagePath)
