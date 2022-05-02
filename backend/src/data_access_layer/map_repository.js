@@ -1,13 +1,11 @@
-const admin = require("firebase-admin")
-
-module.exports = function () {
+module.exports = function ({ db }) {
     return {
 
         /**
          * @param {Map<String, Any>[]} callback
          */
         getAllMaps: function (callback) {
-            const docRef = admin.firestore().collection('maps')
+            const docRef = db.collection('maps')
             docRef.get().then((documents) => {
                 if (documents.empty) {
                     callback(['documnetsNotFound'], null)
