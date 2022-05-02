@@ -9,7 +9,7 @@ function getDatabaseConnection () {
 
     if (process.env.FIREBASE_TARGET === "emulator") {
         config = {
-            projectId: "flash-chat-acb18"
+            projectId: "walle-6a679"
         }
     }
 

@@ -8,12 +8,14 @@ module.exports = function ({ db }) {
         getAllPathPoints: function (callback) {
             const docRef = db.collection('maps').doc("mapTest")
             docRef.get().then((docSnap) => {
+                console.log(db);
                 if (docSnap.empty) {
                     callback('NoExistingMap', null)
                 } else {
                     callback(null, docSnap.data().PathPoints)
                 }
-            }).catch(() => {
+            }).catch((e) => {
+                console.log(e)
                 callback('InternalError', null)
             })
         },

@@ -19,7 +19,7 @@ const mapRouter = require('./routers/map_router')
 
 const obstacleRouter = require('./routers/obstacle_router')
 const obstableEventManager = require('../business_logic_layer/obstacle_event_manager')
-
+const obstacleEventRepository = require('../data_access_layer/obstacle_event_repository')
 const SocketIOServer = require('./socketio/')
 
 container.register('pointRepository', awilix.asFunction(pointRepository))
@@ -33,6 +33,7 @@ container.register('mapRouter', awilix.asFunction(mapRouter))
 container.register('SocketIOServer', awilix.asClass(SocketIOServer))
 container.register('obstacleRouter', awilix.asFunction(obstacleRouter))
 container.register('obstacleEventManager', awilix.asFunction(obstableEventManager))
+container.register('obstacleEventRepository', awilix.asFunction(obstacleEventRepository))
 
 const { Storage } = require('@google-cloud/storage')
 container.register('storage', awilix.asClass(Storage))
