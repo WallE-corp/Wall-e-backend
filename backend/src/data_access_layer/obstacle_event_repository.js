@@ -1,9 +1,9 @@
-const { collection, addDoc } = require("firebase/firestore")
+const { collection, addDoc, getFirestore } = require("firebase/firestore")
 
 function obstacleEventRepository ({ db }) {
     async function addObstacleEvent(imageUrl, x, y, label) {
         try {
-            const collectionRef = collection(db, "obstacleEvents")
+            const collectionRef = db.collection("obstacleEvents")
             const obstacleEventDoc = {
                 imageUrl,
                 x,
@@ -11,9 +11,10 @@ function obstacleEventRepository ({ db }) {
                 label,
                 timestamp: Date.now()
             }
-            const docRef = await addDoc(collectionRef, obstacleEventDoc)
+            const docRef = await collectionRef.add(obstacleEventDoc)
             return true
         } catch (e) {
+            console.log(e)
             return false
         }
     }
