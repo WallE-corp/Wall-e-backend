@@ -1,4 +1,5 @@
 const { OBSTACLE_EVENT } = require('../presentation_layer/socketio/command_types')
+const fs = require('fs')
 
 module.exports = ({ obstacleEventRepository, uploadImage, SocketIOServer }) => {
     return {
@@ -11,13 +12,18 @@ module.exports = ({ obstacleEventRepository, uploadImage, SocketIOServer }) => {
                 const imageUrl = await uploadImage(tmpImageFilePath)
 
                 // TODO: Delete tmp image file
+                fs.unlink(tmpImageFilePath, (e) => {
+                    if (e) {
+                        // TODO: report that was unable to delete tmp file
+                    }
+                })
 
                 // TODO: [Ahmad] Begin async request to classify image
 
                 // Create an obstacle event document in Cloud Firestore
                 const obstacleEvent = await obstacleEventRepository.addObstacleEvent(imageUrl, x, y, 'catgirl')
 
-                // TODO: notify mobile of obstacle event
+                // notify mobile of obstacle event
                 SocketIOServer.sendCommand(OBSTACLE_EVENT, null, obstacleEvent)
 
                 return obstacleEvent
