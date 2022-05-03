@@ -1,7 +1,6 @@
-const { collection, addDoc, getFirestore } = require("firebase/firestore")
-
+/* eslint-disable no-throw-literal */
 function obstacleEventRepository ({ db }) {
-    async function addObstacleEvent(imageUrl, x, y, label) {
+    async function addObstacleEvent (imageUrl, x, y, label) {
         try {
             const collectionRef = db.collection("obstacleEvents")
             const obstacleEventDoc = {
@@ -12,15 +11,19 @@ function obstacleEventRepository ({ db }) {
                 timestamp: Date.now()
             }
             const docRef = await collectionRef.add(obstacleEventDoc)
-            return true
+            const docSnap = await docRef.get()
+            return {
+                ...docSnap.data(),
+                documentId: docSnap.id
+            }
         } catch (e) {
             console.log(e)
-            return false
+            throw "Internal Error"
         }
     }
 
     return {
-        addObstacleEvent,
+        addObstacleEvent
     }
 }
 

@@ -12,7 +12,7 @@ module.exports = ({ obstacleEventRepository }) => {
                 'meep',
                 2,
                 2,
-                'catgirl',
+                'catgirl'
             )
             // notify mobile of obstacle event
         }
