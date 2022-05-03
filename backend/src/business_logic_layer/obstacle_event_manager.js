@@ -1,4 +1,4 @@
-module.exports = ({ obstacleEventRepository }) => {
+module.exports = ({ obstacleEventRepository, uploadImage }) => {
     return {
         handle_obstacle_event: (obstacleEventData) => {
             const { tmpImageFilePath } = obstacleEventData
@@ -8,12 +8,7 @@ module.exports = ({ obstacleEventRepository }) => {
             // [Ahmad] Begin async request to classify image
 
             // Create an obstacle event document in Cloud Firestore
-            obstacleEventRepository.addObstacleEvent(
-                'meep',
-                2,
-                2,
-                'catgirl'
-            )
+            obstacleEventRepository.addObstacleEvent('meep', 2, 2, 'catgirl')
             // notify mobile of obstacle event
         }
     }

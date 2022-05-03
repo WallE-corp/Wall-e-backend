@@ -2,7 +2,9 @@ const initializeApp = require("firebase-admin/app")
 const serviceAccount = require("./wall_e_db_private_key.json")
 const admin = require("firebase-admin")
 
-function getDatabaseConnection () {
+let initialized = false
+
+function initialize () {
     let config = {
         credential: admin.credential.cert(serviceAccount)
     }
@@ -14,7 +16,24 @@ function getDatabaseConnection () {
     }
 
     initializeApp.initializeApp(config)
+    initialized = true
+}
+
+function getDatabaseConnection () {
+    if (!initialized) {
+        initialize()
+    }
     return admin.firestore()
 }
 
-module.exports = getDatabaseConnection
+function getStorageConnection () {
+    if (!initialized) {
+        initialize()
+    }
+    return admin.storage()
+}
+
+module.exports = {
+    getDatabaseConnection,
+    getStorageConnection
+}

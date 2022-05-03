@@ -4,9 +4,13 @@ const awilix = require('awilix')
 const container = awilix.createContainer()
 
 // Get db connection
-const getDbConnection = require('../data_access_layer/database')
-const db = getDbConnection()
+const { getDatabaseConnection, getStorageConnection } = require('../data_access_layer/database')
+const db = getDatabaseConnection()
 container.register('db', awilix.asValue(db))
+
+// const { Storage } = require('@google-cloud/storage')
+const storage = getStorageConnection()
+container.register('storage', awilix.asValue(storage))
 
 // reposositories (replace the code below to our needs)
 const pointRepository = require('../data_access_layer/point_repository')
@@ -34,9 +38,6 @@ container.register('SocketIOServer', awilix.asClass(SocketIOServer))
 container.register('obstacleRouter', awilix.asFunction(obstacleRouter))
 container.register('obstacleEventManager', awilix.asFunction(obstableEventManager))
 container.register('obstacleEventRepository', awilix.asFunction(obstacleEventRepository))
-
-const { Storage } = require('@google-cloud/storage')
-container.register('storage', awilix.asClass(Storage))
 
 const uploadImage = require('../business_logic_layer/utility/upload_image')
 container.register('uploadImage', awilix.asFunction(uploadImage))
