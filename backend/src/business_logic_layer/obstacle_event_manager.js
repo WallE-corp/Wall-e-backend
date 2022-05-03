@@ -25,9 +25,10 @@ module.exports = ({ obstacleEventRepository, uploadImage, SocketIOServer, dtoVal
                 })
 
                 // TODO: [Ahmad] Begin async request to classify image
+                const label = 'catgirl' // replace with func to get label
 
                 // Create an obstacle event document in Cloud Firestore
-                const obstacleEvent = await obstacleEventRepository.addObstacleEvent(imageUrl, x, y, 'catgirl')
+                const obstacleEvent = await obstacleEventRepository.addObstacleEvent(imageUrl, x, y, label)
 
                 // notify mobile of obstacle event
                 SocketIOServer.sendCommand(OBSTACLE_EVENT, null, obstacleEvent)
