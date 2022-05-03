@@ -11,14 +11,24 @@ const mockObstacleEventObj = {
 
 describe('Obstacle Event Manager', () => {
     let obstacleManager
+    let dependencies
     beforeAll(() => {
-        const dependencies = {
+        dependencies = {
             obstacleEventRepository: {
                 addObstacleEvent: jest.fn().mockResolvedValue(mockObstacleEventObj)
             },
-            uploadImage: jest.fn().mockResolvedValue('someImageLink')
+            uploadImage: jest.fn().mockResolvedValue('someImageLink'),
+            SocketIOServer: {
+                broadcastCommand: jest.fn().mockImplementation((type, client, data) => {
+                    // Do nothing
+                })
+            }
         }
         obstacleManager = obstacleManagerFunc(dependencies)
+    })
+
+    afterEach(() => {
+        jest.clearAllMocks()
     })
 
     it("Should handle obstacle event and return the created event data", async () => {
@@ -28,10 +38,12 @@ describe('Obstacle Event Manager', () => {
             x: 1,
             y: 2
         }
+        const broadcastCommandSpy = jest.spyOn(dependencies.SocketIOServer, 'broadcastCommand')
         // When
         const result = await obstacleManager.handleObstacleEvent(obstacleEventData)
 
         // Then
+        expect(broadcastCommandSpy).toHaveBeenCalledWith(9, null, result)
         expect(result).toEqual(mockObstacleEventObj)
     })
 })
