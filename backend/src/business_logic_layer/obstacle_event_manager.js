@@ -3,7 +3,7 @@ module.exports = ({ obstacleEventRepository, uploadImage }) => {
         handleObstacleEvent: async (obstacleEventData) => {
             // TODO: Validate incoming data
             const { tmpImageFilePath, x, y } = obstacleEventData
-
+            // Correct x and y values to get reall position on map
             try {
                 // [Du Won] Store image in Cloud Storage
                 const imageUrl = await uploadImage(tmpImageFilePath)
@@ -14,6 +14,8 @@ module.exports = ({ obstacleEventRepository, uploadImage }) => {
                 const obstacleEvent = await obstacleEventRepository.addObstacleEvent(imageUrl, x, y, 'catgirl')
 
                 // notify mobile of obstacle event
+
+                return obstacleEvent
             } catch (e) {
                 console.error(e)
                 throw e

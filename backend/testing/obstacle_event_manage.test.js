@@ -1,0 +1,37 @@
+const obstacleManagerFunc = require('../src/business_logic_layer/obstacle_event_manager')
+
+const mockObstacleEventObj = {
+    documentId: "",
+    imageUrl: "",
+    x: 1,
+    y: 2,
+    label: "catgirl",
+    timestamp: Date.now()
+}
+
+describe('Obstacle Event Manager', () => {
+    let obstacleManager
+    beforeAll(() => {
+        const dependencies = {
+            obstacleEventRepository: {
+                addObstacleEvent: jest.fn().mockResolvedValue(mockObstacleEventObj)
+            },
+            uploadImage: jest.fn().mockResolvedValue('someImageLink')
+        }
+        obstacleManager = obstacleManagerFunc(dependencies)
+    })
+
+    it("Should handle obstacle event and return the created event data", async () => {
+        // Given
+        const obstacleEventData = {
+            tmpImageFilePath: 'someImageFilePath',
+            x: 1,
+            y: 2
+        }
+        // When
+        const result = await obstacleManager.handleObstacleEvent(obstacleEventData)
+
+        // Then
+        expect(result).toEqual(mockObstacleEventObj)
+    })
+})
