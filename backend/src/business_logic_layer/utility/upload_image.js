@@ -1,3 +1,4 @@
+/* eslint-disable no-throw-literal */
 const path = require('path')
 
 module.exports = function ({ storage }) {
@@ -12,6 +13,8 @@ module.exports = function ({ storage }) {
             return mediaLink
         } catch (error) {
             console.error(error)
+            console.error(error)
+            throw "Image upload failed"
         }
     }
 }

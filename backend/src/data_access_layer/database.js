@@ -6,10 +6,12 @@ let initialized = false
 
 function initialize () {
     let config = {
-        credential: admin.credential.cert(serviceAccount)
+        credential: admin.credential.cert(serviceAccount),
+        storageBucket: "wall-e-db.appspot.com"
     }
 
     if (process.env.FIREBASE_TARGET === "emulator") {
+        console.log("Using emulator")
         config = {
             projectId: process.env.FIREBASE_PROJECT_ID
         }
