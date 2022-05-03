@@ -48,14 +48,13 @@ module.exports = function ({ db }) {
            * @param {Map<String, Any>} callback
           */
 
-        addPoint: function (coordinates, callback) {
-            const docRef = db.collection('maps').doc('map')
-            docRef.update({
-
-                points: admin.firestore.FieldValue.arrayUnion({
-                    coordinates: coordinates
-                })
-
+          addPoint: function (coordinates, callback) {
+               const docRef = admin.firestore().collection('maps').doc('mapTest')
+               docRef.update({
+                    
+                    points: admin.firestore.FieldValue.arrayUnion({
+                         coordinates: coordinates
+                    }),   
             }).then(() => {
                 callback(null, 200)
             }).catch((error) => {

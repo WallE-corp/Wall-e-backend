@@ -1,20 +1,23 @@
 const express = require('express')
 
+
 module.exports = function ({ pointManager }) {
+
     const router = express.Router()
 
     router.get("/", (req, res) => {
         pointManager.getAllPathPoints((error, data) => {
             if (error) {
                 res.status(500).json(error)
-            } else {
+            }
+            else {
                 res.status(200).json(data)
             }
         })
     })
 
     router.get("/:mapId", (req, res) => {
-        const mapId = req.params.mapId
+        const mapId = req.params.mapId;
 
         const coordinates = {
             x: parseFloat(req.body.x),
@@ -31,14 +34,26 @@ module.exports = function ({ pointManager }) {
     })
 
     router.post('/', (req, res) => {
-        const x = req.body.x
-        const y = req.body.y
 
-        pointManager.addPoint({ x, y }, function (errors) {
-            if (errors) { return res.status(500) }
-            res.status(201)
-            console.log("status ok")
+        const point = {
+            x: parseFloat(req.body.x),
+            y: parseFloat(req.body.y)
+        }
+        pointManager.managePoint(point, function(error, managedPoint){
+            if(error){
+                res.status(404).json(error)
+            }else{
+                
+                pointManager.addPoint(managedPoint, function (errors) {
+                    if (errors) { 
+                        res.status(500).send(errors) 
+                        return
+                    }
+                    res.sendStatus(201)
+                })
+            }
         })
+      
     })
 
     return router
