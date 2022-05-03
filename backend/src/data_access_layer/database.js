@@ -9,7 +9,7 @@ function getDatabaseConnection () {
 
     if (process.env.FIREBASE_TARGET === "emulator") {
         config = {
-            projectId: "walle-6a679"
+            projectId: process.env.FIREBASE_PROJECT_ID
         }
     }
 

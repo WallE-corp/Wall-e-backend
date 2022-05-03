@@ -5,7 +5,7 @@ describe('Obstacle Event Repository', () => {
     let obstacleRepository
     beforeAll(() => {
         firebaseAdmin.initializeApp({
-            projectId: "walle-6a679"
+            projectId: process.env.FIREBASE_PROJECT_ID
         })
         obstacleRepository = require("../src/data_access_layer/obstacle_event_repository")({ db: firebaseAdmin.firestore() })
     })
@@ -18,7 +18,6 @@ describe('Obstacle Event Repository', () => {
             y: 2,
             label: 'meep'
         }
-
         // When
         const result = await obstacleRepository.addObstacleEvent(obj.imageUrl, obj.x, obj.y, obj.label)
         // Then
