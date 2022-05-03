@@ -10,13 +10,15 @@ module.exports = ({ obstacleEventRepository, uploadImage, SocketIOServer }) => {
                 // [Du Won] Store image in Cloud Storage
                 const imageUrl = await uploadImage(tmpImageFilePath)
 
+                // TODO: Delete tmp image file
+
                 // TODO: [Ahmad] Begin async request to classify image
 
                 // Create an obstacle event document in Cloud Firestore
                 const obstacleEvent = await obstacleEventRepository.addObstacleEvent(imageUrl, x, y, 'catgirl')
 
                 // TODO: notify mobile of obstacle event
-                SocketIOServer.broadcastCommand(OBSTACLE_EVENT, null, obstacleEvent)
+                SocketIOServer.sendCommand(OBSTACLE_EVENT, null, obstacleEvent)
 
                 return obstacleEvent
             } catch (e) {

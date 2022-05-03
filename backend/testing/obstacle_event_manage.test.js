@@ -19,7 +19,7 @@ describe('Obstacle Event Manager', () => {
             },
             uploadImage: jest.fn().mockResolvedValue('someImageLink'),
             SocketIOServer: {
-                broadcastCommand: jest.fn().mockImplementation((type, client, data) => {
+                sendCommand: jest.fn().mockImplementation((type, client, data) => {
                     // Do nothing
                 })
             }
@@ -38,12 +38,12 @@ describe('Obstacle Event Manager', () => {
             x: 1,
             y: 2
         }
-        const broadcastCommandSpy = jest.spyOn(dependencies.SocketIOServer, 'broadcastCommand')
+        const sendCommandSpy = jest.spyOn(dependencies.SocketIOServer, 'sendCommand')
         // When
         const result = await obstacleManager.handleObstacleEvent(obstacleEventData)
 
         // Then
-        expect(broadcastCommandSpy).toHaveBeenCalledWith(9, null, result)
+        expect(sendCommandSpy).toHaveBeenCalledWith(9, null, result)
         expect(result).toEqual(mockObstacleEventObj)
     })
 })

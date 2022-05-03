@@ -34,7 +34,7 @@ container.register('mapRepository', awilix.asFunction(mapRepository))
 container.register('mapManager', awilix.asFunction(mapManager))
 container.register('mapRouter', awilix.asFunction(mapRouter))
 
-container.register('SocketIOServer', awilix.asClass(SocketIOServer))
+container.register('SocketIOServer', awilix.asClass(SocketIOServer).setLifetime(awilix.Lifetime.SINGLETON))
 container.register('obstacleRouter', awilix.asFunction(obstacleRouter))
 container.register('obstacleEventManager', awilix.asFunction(obstableEventManager))
 container.register('obstacleEventRepository', awilix.asFunction(obstacleEventRepository))

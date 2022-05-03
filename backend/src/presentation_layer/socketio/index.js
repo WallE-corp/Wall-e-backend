@@ -15,7 +15,7 @@ const { MOVEMENT, REGISTRATION, OBSTACLE_EVENT } = require('./command_types')
 //
 
 class SocketIOServer {
-    constructor (httpServer) {
+    constructor () {
         this.io = null
         this.remoteClientId = null
         this.wallEClientId = null
@@ -38,15 +38,22 @@ class SocketIOServer {
         })
     }
 
+    registerClient (role, clientId) {
+        if (role === "remote") this.remoteClientId = clientId
+        else if (role === "wall-e") this.wallEClientId = clientId
+
+        console.log(this.remoteClientId, this.wallEClientId)
+    }
+
     registerCommandFunctions () {
         // Registration request
         this.commandFunctions[REGISTRATION] = (client, { data }) => {
             switch (data.role) {
             case 'remote':
-                this.remoteClientId = client.id
+                this.registerClient(data.role, client.id)
                 break
             case 'wall-e':
-                this.wallEClientId = client.id
+                this.registerClient(data.role, client.id)
                 break
             default:
                 console.log('Unknown role')
