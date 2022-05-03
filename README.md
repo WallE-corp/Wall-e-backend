@@ -66,6 +66,7 @@ For now, targeting the emulator does not work when running with docker.
     * `emulator`: Target the local running firebase emulator 
 
 * **FIREBASE_PROJECT_ID**
+
     ID of the firebase project (Both for emulator and live)
 
     Should be left unchanged from `walle-6a679`
