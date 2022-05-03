@@ -1,15 +1,23 @@
 module.exports = ({ obstacleEventRepository, uploadImage }) => {
     return {
-        handle_obstacle_event: (obstacleEventData) => {
-            const { tmpImageFilePath } = obstacleEventData
-            console.log(`Obstacle event: ${tmpImageFilePath}`)
-            // [Du Won] Store image in Cloud Storage
+        handleObstacleEvent: async (obstacleEventData) => {
+            // TODO: Validate incoming data
+            const { tmpImageFilePath, x, y } = obstacleEventData
 
-            // [Ahmad] Begin async request to classify image
+            try {
+                // [Du Won] Store image in Cloud Storage
+                const imageUrl = await uploadImage(tmpImageFilePath)
 
-            // Create an obstacle event document in Cloud Firestore
-            obstacleEventRepository.addObstacleEvent('meep', 2, 2, 'catgirl')
-            // notify mobile of obstacle event
+                // [Ahmad] Begin async request to classify image
+
+                // Create an obstacle event document in Cloud Firestore
+                const obstacleEvent = await obstacleEventRepository.addObstacleEvent(imageUrl, x, y, 'catgirl')
+
+                // notify mobile of obstacle event
+            } catch (e) {
+                console.error(e)
+                throw e
+            }
         }
     }
 }

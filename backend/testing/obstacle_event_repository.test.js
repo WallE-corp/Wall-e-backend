@@ -3,11 +3,23 @@ const firebaseAdmin = require("firebase-admin")
 
 describe('Obstacle Event Repository', () => {
     let obstacleRepository
+    let db
     beforeAll(() => {
         firebaseAdmin.initializeApp({
             projectId: process.env.FIREBASE_PROJECT_ID
         })
-        obstacleRepository = require("../src/data_access_layer/obstacle_event_repository")({ db: firebaseAdmin.firestore() })
+        db = firebaseAdmin.firestore()
+        obstacleRepository = require("../src/data_access_layer/obstacle_event_repository")({ db })
+    })
+
+    afterEach(async () => {
+        /*
+        const collectionRef = db.collection('obstacleEvents')
+        const snapshot = await collectionRef.orderBy('timestamp', 'desc').get()
+        snapshot.docs.forEach((doc) => {
+            doc.ref.delete()
+        })
+        */
     })
 
     it('Should create an obstacle event', async () => {
