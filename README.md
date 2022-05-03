@@ -25,3 +25,58 @@ Stop all containers with:
 For development testing without running locally, connect to development server running on AWS Lightsail at:
     `13.53.112.155:8080`
 
+## Testing
+Because of issues with Docker and firebase emulator, testing should be done outside the Docker container.
+Testing also requires that the firebase emulators are up and running.
+
+### To run tests:
+    $ cd backend
+    $ npm test
+    
+
+## Firebase development targets
+### Live
+When targeting the live firebase make sure to include the necessary credentials files in the `data_access_layer`.
+### Emulator
+For now, targeting the emulator does not work when running with docker. 
+#### How to setup
+1.  Install the npm package `firebase-tools`
+    ```bash
+    $ npm install -g firebase-tools
+    ```
+2.  (From root) Enter the `firebase_emulator_suite` folder and start the emulators
+    ```bash
+    $ cd firebase_emulator_suite
+    $ firebase --project=walle-6a679 emulators:start
+    ```
+    -   This step may require you to login. If the terminal does not prompt you automatically then run:
+        ```bash
+        $ firebase login
+        ```
+        You'll only need to do this once
+3.  Ensure you've read about the environment variables below and start the backend app.
+## Environmental variables
+* **FIREBASE_TARGET**
+    
+    Which firebase target the app should connect to
+
+    Accepted values: `emulator`, `live`
+
+    * `live`: Target the live firestore database
+    * `emulator`: Target the local running firebase emulator 
+
+* **FIREBASE_PROJECT_ID**
+    ID of the firebase project (Both for emulator and live)
+
+    Should be left unchanged from `walle-6a679`
+
+* **FIRESTORE_EMULATOR_HOST**
+    -*INCLUDE ONLY IF RUNNING EMULATOR*
+
+    The address of the local firestore emulator
+
+* **FIREBASE_STORAGE_EMULATOR_HOST**
+    -*INCLUDE ONLY IF RUNNING EMULATOR*
+
+    The address of the local cloud storage emulator
+
