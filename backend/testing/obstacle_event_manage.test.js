@@ -22,6 +22,9 @@ describe('Obstacle Event Manager', () => {
                 sendCommand: jest.fn().mockImplementation((type, client, data) => {
                     // Do nothing
                 })
+            },
+            dtoValidator: {
+                validateObstacleEventDto: jest.fn().mockReturnValue(true)
             }
         }
         obstacleManager = obstacleManagerFunc(dependencies)
@@ -45,5 +48,20 @@ describe('Obstacle Event Manager', () => {
         // Then
         expect(sendCommandSpy).toHaveBeenCalledWith(9, null, result)
         expect(result).toEqual(mockObstacleEventObj)
+    })
+
+    it('Should throw "Validation Error"', async () => {
+        // Given
+        const obstacleEventData = {
+            tmpImageFilePath: 'someImageFilePath',
+            x: NaN,
+            y: NaN
+        }
+        jest
+            .spyOn(dependencies.dtoValidator, 'validateObstacleEventDto')
+            .mockReturnValue(false)
+
+        // When Then
+        await expect(obstacleManager.handleObstacleEvent(obstacleEventData)).rejects.toEqual('Validation Error')
     })
 })

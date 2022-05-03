@@ -26,6 +26,8 @@ const obstableEventManager = require('../business_logic_layer/obstacle_event_man
 const obstacleEventRepository = require('../data_access_layer/obstacle_event_repository')
 const SocketIOServer = require('./socketio/')
 
+const dtoValidator = require('../business_logic_layer/dto_validator')
+
 container.register('pointRepository', awilix.asFunction(pointRepository))
 container.register('pointManager', awilix.asFunction(pointManager))
 container.register('pointRouter', awilix.asFunction(pointRouter))
@@ -38,6 +40,10 @@ container.register('SocketIOServer', awilix.asClass(SocketIOServer).setLifetime(
 container.register('obstacleRouter', awilix.asFunction(obstacleRouter))
 container.register('obstacleEventManager', awilix.asFunction(obstableEventManager))
 container.register('obstacleEventRepository', awilix.asFunction(obstacleEventRepository))
+
+container.register({
+    dtoValidator: awilix.asFunction(dtoValidator)
+})
 
 const uploadImage = require('../business_logic_layer/utility/upload_image')
 container.register('uploadImage', awilix.asFunction(uploadImage))
