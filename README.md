@@ -39,6 +39,8 @@ Testing also requires that the firebase emulators are up and running.
 When targeting the live firebase make sure to include the necessary credentials files in the `data_access_layer`.
 ### Emulator
 For now, targeting the emulator does not work when running with docker. 
+
+Firebase emulators are really useful for testing and prototyping. Once they are running you can access their UI at `localhost:4000`. The firebase emulators are developed by google themselves and are not thirdparty.
 #### How to setup
 1.  Install the npm package `firebase-tools`
     ```bash
