@@ -7,10 +7,13 @@ describe('Upload Image to Cloud', () => {
     let _uploadImage
 
     beforeAll(() => {
+        console.log(process.env.FIREBASE_PROJECT_ID)
         firebaseAdmin.initializeApp({
-            projectId: process.env.FIREBASE_PROJECT_ID
+            projectId: process.env.FIREBASE_PROJECT_ID,
+            storageBucket: `gs://${process.env.FIREBASE_PROJECT_ID}.appspot.com`
         })
         _uploadImage = uploadImage({ storage: firebaseAdmin.storage() })
+        console.log(`gs://${process.env.FIREBASE_PROJECT_ID}.appspot.com`)
     })
 
     it('Should upload image and return its destination', async () => {

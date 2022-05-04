@@ -1,5 +1,5 @@
 /* eslint-disable no-throw-literal */
-function obstacleEventRepository ({ db }) {
+function obstacleEventRepository ({ db, admin }) {
     async function addObstacleEvent (imageUrl, x, y, label) {
         try {
             const collectionRef = db.collection("obstacleEvents")
@@ -8,7 +8,7 @@ function obstacleEventRepository ({ db }) {
                 x,
                 y,
                 label,
-                timestamp: Date.now()
+                timestamp: admin.firestore.FieldValue.serverTimestamp()
             }
             const docRef = await collectionRef.add(obstacleEventDoc)
             const docSnap = await docRef.get()

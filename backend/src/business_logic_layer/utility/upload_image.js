@@ -3,7 +3,7 @@ const path = require('path')
 
 module.exports = function ({ storage }) {
     return async function (imagePath) {
-        const bucket = storage.bucket('gs://walle-6a679.appspot.com')
+        const bucket = storage.bucket(`gs://${process.env.FIREBASE_PROJECT_ID}.appspot.com`)
         try {
             const fileName = path.basename(imagePath)
             const data = await bucket.upload(imagePath, {

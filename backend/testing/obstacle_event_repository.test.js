@@ -9,7 +9,11 @@ describe('Obstacle Event Repository', () => {
             projectId: process.env.FIREBASE_PROJECT_ID
         })
         db = firebaseAdmin.firestore()
-        obstacleRepository = require("../src/data_access_layer/obstacle_event_repository")({ db })
+        const dependencies = {
+            db,
+            admin: firebaseAdmin
+        }
+        obstacleRepository = require("../src/data_access_layer/obstacle_event_repository")(dependencies)
     })
 
     afterEach(async () => {
