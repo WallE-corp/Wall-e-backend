@@ -39,4 +39,16 @@ describe('Obstacle Event Repository', () => {
             })
         )
     })
+
+    it('Should classify an obstacle', async () => {
+        // Given
+        const imageUrl= 'https://storage.googleapis.com/download/storage/v1/b/walle-6a679.appspot.com/o/images%2F928d99b0e0b7209e2f41ca8faefaa189?generation=1651573640972560&alt=media'
+            
+        // When
+        const result = await obstacleRepository.getImageClassification(imageUrl)
+        // Then
+        expect(result).toEqual(
+            'Human body'
+        )
+    })
 })
