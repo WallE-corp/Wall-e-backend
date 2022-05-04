@@ -11,12 +11,11 @@ const socketIo = require('socket.io')
  */
 
 // Enums -------------
-const MOVEMENT = 4
-const REGISTRATION = 6
+const { MOVEMENT, REGISTRATION, OBSTACLE_EVENT } = require('./command_types')
 //
 
 class SocketIOServer {
-    constructor (httpServer) {
+    constructor () {
         this.io = null
         this.remoteClientId = null
         this.wallEClientId = null
@@ -39,15 +38,20 @@ class SocketIOServer {
         })
     }
 
+    registerClient (role, clientId) {
+        if (role === "remote") this.remoteClientId = clientId
+        else if (role === "wall-e") this.wallEClientId = clientId
+    }
+
     registerCommandFunctions () {
         // Registration request
         this.commandFunctions[REGISTRATION] = (client, { data }) => {
             switch (data.role) {
             case 'remote':
-                this.remoteClientId = client.id
+                this.registerClient(data.role, client.id)
                 break
             case 'wall-e':
-                this.wallEClientId = client.id
+                this.registerClient(data.role, client.id)
                 break
             default:
                 console.log('Unknown role')
@@ -61,6 +65,12 @@ class SocketIOServer {
                 this.io.to(this.wallEClientId).emit('message', JSON.stringify(data))
             }
         }
+        // Obstacle event
+        this.commandFunctions[OBSTACLE_EVENT] = (client, data) => {
+            if (this.remoteClientId) {
+                this.io.to(this.remoteClientId).emit('message', JSON.stringify(data))
+            }
+        }
     }
 
     onMessage (client, message) {
@@ -70,6 +80,18 @@ class SocketIOServer {
             commandFunction(client, messageData)
         } catch (e) {
             console.log(e)
+        }
+    }
+
+    sendCommand (type, client, data) {
+        try {
+            const commandFunction = this.commandFunctions[`${type}`]
+            commandFunction(client, {
+                type,
+                data
+            })
+        } catch (e) {
+            console.error(e)
         }
     }
 

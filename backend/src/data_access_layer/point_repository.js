@@ -13,7 +13,8 @@ module.exports = function ({ db }) {
                 } else {
                     callback(null, docSnap.data().PathPoints)
                 }
-            }).catch(() => {
+            }).catch((e) => {
+                console.log(e)
                 callback('InternalError', null)
             })
         },

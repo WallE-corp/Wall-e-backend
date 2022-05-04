@@ -27,7 +27,7 @@ app.use('/pathpoints', point_router)
 app.use('/map', map_router)
 app.use('/obstacle', obstacle_router)
 
-app.listen(8080, function () {
+server.listen(3000, function () {
     console.log("Web application listening on port 3000.")
 })
 
