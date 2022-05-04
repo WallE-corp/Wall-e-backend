@@ -23,7 +23,7 @@ Stop all containers with:
 ### AWS Lightsail dev server
 
 For development testing without running locally, connect to development server running on AWS Lightsail at:
-    `13.53.112.155:8080`
+    `13.49.160.252:3000`
 
 ## Testing
 Because of issues with Docker and firebase emulator, testing should be done outside the Docker container.
@@ -49,7 +49,7 @@ Firebase emulators are really useful for testing and prototyping. Once they are 
 2.  (From root) Enter the `firebase_emulator_suite` folder and start the emulators
     ```bash
     $ cd firebase_emulator_suite
-    $ firebase --project=walle-6a679 emulators:start
+    $ firebase --project=<insert projectId> emulators:start
     ```
     -   This step may require you to login. If the terminal does not prompt you automatically then run:
         ```bash
@@ -71,7 +71,11 @@ Firebase emulators are really useful for testing and prototyping. Once they are 
 
     ID of the firebase project (Both for emulator and live)
 
-    Should be left unchanged from `walle-6a679`
+    Should be left unchanged from `walle-<...>`. Ask Du Won for project Id
+
+* **GCLOUD_PROJECT**
+
+    Should be same as __FIREBASE_PROJECT_ID__ variable.
 
 * **FIRESTORE_EMULATOR_HOST**
     -*INCLUDE ONLY IF RUNNING EMULATOR*

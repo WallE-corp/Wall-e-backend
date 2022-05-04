@@ -1,4 +1,5 @@
 /* eslint-disable no-throw-literal */
+
 const vision = require("@google-cloud/vision")
 const path = require('path')
 
@@ -6,7 +7,7 @@ const client = new vision.ImageAnnotatorClient({
     keyFilename: path.join(__dirname,"google_cloud_auth_key.json")
 })
 
-function obstacleEventRepository ({ db }) {
+function obstacleEventRepository ({ db, admin }) {
     async function addObstacleEvent (imageUrl, x, y, label) {
         try {
             const collectionRef = db.collection("obstacleEvents")
@@ -15,7 +16,7 @@ function obstacleEventRepository ({ db }) {
                 x,
                 y,
                 label,
-                timestamp: Date.now()
+                timestamp: admin.firestore.FieldValue.serverTimestamp()
             }
             const docRef = await collectionRef.add(obstacleEventDoc)
             const docSnap = await docRef.get()

@@ -4,15 +4,17 @@ const awilix = require('awilix')
 const container = awilix.createContainer()
 
 // Get db connection
-const { getDatabaseConnection, getStorageConnection } = require('../data_access_layer/database')
+const { getDatabaseConnection, getStorageConnection, getAdminSDK } = require('../data_access_layer/database')
 const db = getDatabaseConnection()
 const storage = getStorageConnection()
+const admin = getAdminSDK()
 const SocketIOServer = require('./socketio/')
 
 container.register({
     SocketIOServer: awilix.asClass(SocketIOServer).setLifetime(awilix.Lifetime.SINGLETON),
     storage: awilix.asValue(storage),
-    db: awilix.asValue(db)
+    db: awilix.asValue(db),
+    admin: awilix.asValue(admin)
 })
 
 const modules = [

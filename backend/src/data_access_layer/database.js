@@ -34,7 +34,15 @@ function getStorageConnection () {
     return admin.storage()
 }
 
+function getAdminSDK () {
+    if (!initialized) {
+        initialize()
+    }
+    return admin
+}
+
 module.exports = {
     getDatabaseConnection,
-    getStorageConnection
+    getStorageConnection,
+    getAdminSDK
 }
