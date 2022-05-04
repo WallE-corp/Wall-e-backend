@@ -15,7 +15,7 @@ module.exports = ({ obstacleEventRepository, uploadImage, SocketIOServer, dtoVal
 
             try {
                 // [Du Won] Store image in Cloud Storage
-                const imageUrl = await uploadImage(tmpImageFilePath)
+                const imageUrl =  await uploadImage(tmpImageFilePath) 
 
                 // TODO: create external function for this
                 fs.unlink(tmpImageFilePath, (e) => {
@@ -24,11 +24,11 @@ module.exports = ({ obstacleEventRepository, uploadImage, SocketIOServer, dtoVal
                     }
                 })
 
-                // TODO: [Ahmad] Begin async request to classify image
-                const label = 'catgirl' // replace with func to get label
+                // Begin async request to classify image
+                const classification = await obstacleEventRepository.getImageClassification(imageUrl)
 
                 // Create an obstacle event document in Cloud Firestore
-                const obstacleEvent = await obstacleEventRepository.addObstacleEvent(imageUrl, x, y, label)
+                const obstacleEvent = await obstacleEventRepository.addObstacleEvent(imageUrl, x, y, classification)
 
                 // notify mobile of obstacle event
                 SocketIOServer.sendCommand(OBSTACLE_EVENT, null, obstacleEvent)
@@ -38,6 +38,7 @@ module.exports = ({ obstacleEventRepository, uploadImage, SocketIOServer, dtoVal
                 console.error(e)
                 throw e
             }
-        }
+        },
+
     }
 }
