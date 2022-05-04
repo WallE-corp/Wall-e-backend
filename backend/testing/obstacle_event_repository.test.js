@@ -20,6 +20,7 @@ describe('Obstacle Event Repository', () => {
             doc.ref.delete()
         })
         */
+        jest.clearAllMocks()
     })
 
     it('Should create an obstacle event', async () => {

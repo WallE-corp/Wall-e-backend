@@ -41,8 +41,6 @@ class SocketIOServer {
     registerClient (role, clientId) {
         if (role === "remote") this.remoteClientId = clientId
         else if (role === "wall-e") this.wallEClientId = clientId
-
-        console.log(this.remoteClientId, this.wallEClientId)
     }
 
     registerCommandFunctions () {

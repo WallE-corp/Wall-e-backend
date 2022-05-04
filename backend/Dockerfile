@@ -9,8 +9,6 @@ COPY .env ./
 
 RUN npm install
 
-COPY src/presentation_layer/app.js ./src/ 
-
-COPY src src
+COPY ./ ./
 
 CMD ["npm", "run", "start"]
