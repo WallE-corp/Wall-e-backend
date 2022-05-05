@@ -85,12 +85,14 @@ Firebase emulators are really useful for testing and prototyping. Once they are 
     Should be same as __FIREBASE_PROJECT_ID__ variable.
 
 * **FIRESTORE_EMULATOR_HOST**
+    
     -*INCLUDE ONLY IF RUNNING EMULATOR*
 
     The address of the local firestore emulator
 
 * **FIREBASE_STORAGE_EMULATOR_HOST**
-    -*INCLUDE ONLY IF RUNNING EMULATOR*
+   
+   -*INCLUDE ONLY IF RUNNING EMULATOR*
 
     The address of the local cloud storage emulator
 
