@@ -35,9 +35,12 @@ Testing also requires that the firebase emulators are up and running.
     
 
 ## Firebase development targets
-### Live
-When targeting the live firebase make sure to include the necessary credentials files in the `data_access_layer`.
-### Emulator
+### Targeting Live
+When targeting the live firebase make sure to include the necessary credentials files in the `data_access_layer/__keys__`.
+For now the only key you should need is `wall_e_db_private_key.json`. Ask Tifye for this key.
+
+Ensure to set the correct environment variables for running live. [See below](#environmental-variables)
+### Targeting Emulator
 For now, targeting the emulator does not work when running with docker. 
 
 #### Requirements
