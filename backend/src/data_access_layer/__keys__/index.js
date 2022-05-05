@@ -1,7 +1,11 @@
 const path = require('path')
 
+function getKey (keyName) {
+    return path.join(__dirname, `${keyName}.json`)
+}
+
 function getGoolgeCloudPlatformProjectKey () {
-    const keyPath = path.join(__dirname, "wall_e_db_private_key.json")
+    const keyPath = getKey("wall_e_db_private_key")
     const serviceAccount = require(keyPath)
     return {
         keyPath,
@@ -13,7 +17,7 @@ function getGoolgeCloudPlatformProjectKey () {
  * @deprecated Use the single Cloud Platform Project Key instead
  */
 function getCloudVisionAPIKey () {
-    const keyPath = path.join(__dirname, "google_cloud_auth_key.json")
+    const keyPath = getKey("google_cloud_auth_key")
     const serviceAccount = require(keyPath)
     return {
         keyPath,
@@ -25,7 +29,7 @@ function getCloudVisionAPIKey () {
  * @deprecated Use the single Cloud Platform Project Key instead
  */
 function getCloudStorageKey () {
-    const keyPath = path.join(__dirname, "walle-6a679-19e1b7dfe649.json")
+    const keyPath = getKey("walle-6a679-19e1b7dfe649")
     const serviceAccount = require(keyPath)
     return {
         keyPath,
