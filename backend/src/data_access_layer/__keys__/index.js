@@ -5,8 +5,16 @@ function getKey (keyName) {
 }
 
 function getGoolgeCloudPlatformProjectKey () {
-    const keyPath = getKey("wall_e_db_private_key")
-    const serviceAccount = require(keyPath)
+    const keyName = "wall_e_db_private_key"
+    const keyPath = getKey(keyName)
+    let serviceAccount = null
+
+    try {
+        serviceAccount = require(keyPath)
+    } catch (error) {
+        throw Error(`[MISSING KEY] ${keyName}.json`)
+    }
+
     return {
         keyPath,
         serviceAccount
@@ -17,8 +25,16 @@ function getGoolgeCloudPlatformProjectKey () {
  * @deprecated Use the single Cloud Platform Project Key instead
  */
 function getCloudVisionAPIKey () {
-    const keyPath = getKey("google_cloud_auth_key")
-    const serviceAccount = require(keyPath)
+    const keyName = "google_cloud_auth_key"
+    const keyPath = getKey(keyName)
+    let serviceAccount = null
+
+    try {
+        serviceAccount = require(keyPath)
+    } catch (error) {
+        throw Error(`[MISSING KEY] ${keyName}.json`)
+    }
+
     return {
         keyPath,
         serviceAccount
@@ -29,8 +45,16 @@ function getCloudVisionAPIKey () {
  * @deprecated Use the single Cloud Platform Project Key instead
  */
 function getCloudStorageKey () {
-    const keyPath = getKey("walle-6a679-19e1b7dfe649")
-    const serviceAccount = require(keyPath)
+    const keyName = "walle-6a679-19e1b7dfe649"
+    const keyPath = getKey(keyName)
+    let serviceAccount = null
+
+    try {
+        serviceAccount = require(keyPath)
+    } catch (error) {
+        throw Error("Missing key", `[MISSING KEY] ${keyName}.json`)
+    }
+
     return {
         keyPath,
         serviceAccount
