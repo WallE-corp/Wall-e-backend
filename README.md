@@ -78,7 +78,7 @@ Firebase emulators are really useful for testing and prototyping. Once they are 
 
     ID of the firebase project (Both for emulator and live)
 
-    Should be left unchanged from `walle-<...>`. Ask Du Won for project Id
+    Should be left unchanged from `walle-<...>`. Ask for project Id
 
 * **GCLOUD_PROJECT**
 
