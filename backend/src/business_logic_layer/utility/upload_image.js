@@ -7,7 +7,7 @@ module.exports = function ({ storage }) {
         try {
             const fileName = path.basename(imagePath)
             const data = await bucket.upload(imagePath, {
-                destination: `images/${fileName}`, gzip: true
+                destination: `images/${fileName}.jpg`, gzip: true
             })
             const mediaLink = data[0].metadata.mediaLink
             return mediaLink
