@@ -1,6 +1,6 @@
 /* eslint-disable no-throw-literal */
 const { OBSTACLE_EVENT } = require('../presentation_layer/socketio/command_types')
-const fs = require('fs')
+const { clearTmpFile } = require('./utility/clear_tmp_files')
 
 module.exports = ({ obstacleEventRepository, uploadImage, SocketIOServer, dtoValidator }) => {
     return {
@@ -8,7 +8,10 @@ module.exports = ({ obstacleEventRepository, uploadImage, SocketIOServer, dtoVal
             obstacleEventData.x = Number(obstacleEventData.x)
             obstacleEventData.y = Number(obstacleEventData.y)
             const validationResult = dtoValidator.validateObstacleEventDto(obstacleEventData)
-            if (!validationResult) throw "Validation Error"
+            if (!validationResult) {
+                clearTmpFile(obstacleEventData.tmpImageFilePath)
+                throw "Validation Error"
+            }
 
             // TODO: Correct x and y values to get reall position on map
             const { tmpImageFilePath, x, y } = obstacleEventData
@@ -17,12 +20,8 @@ module.exports = ({ obstacleEventRepository, uploadImage, SocketIOServer, dtoVal
                 // Store image in Cloud Storage
                 const imageUrl = await uploadImage(tmpImageFilePath)
 
-                // TODO: create external function for this
-                fs.unlink(tmpImageFilePath, (e) => {
-                    if (e) {
-                        // TODO: report that was unable to delete tmp file
-                    }
-                })
+                // Clear tmp file
+                clearTmpFile(tmpImageFilePath)
 
                 // Begin async request to classify image
                 const classification = await obstacleEventRepository.getImageClassification(imageUrl)
