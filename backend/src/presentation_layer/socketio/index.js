@@ -48,9 +48,11 @@ class SocketIOServer {
         this.commandFunctions[REGISTRATION] = (client, { data }) => {
             switch (data.role) {
             case 'remote':
+                console.log('Remote controller registered')
                 this.registerClient(data.role, client.id)
                 break
             case 'wall-e':
+                console.log('WallE registered')
                 this.registerClient(data.role, client.id)
                 break
             default:
@@ -61,7 +63,6 @@ class SocketIOServer {
         // Movement request
         this.commandFunctions[MOVEMENT] = (client, data) => {
             if (this.remoteClientId && client.id === this.remoteClientId && this.wallEClientId) {
-                console.log(data)
                 this.io.to(this.wallEClientId).emit('message', JSON.stringify(data))
             }
         }
