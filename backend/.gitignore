@@ -1,6 +1,6 @@
 node_modules
 /src/**/*/wall*.json
-
+/src/**/*/google_cloud_auth_key.json
 /src/**/*/data/tmp/**/*
 !/src/**/*/data/tmp/tmp
 

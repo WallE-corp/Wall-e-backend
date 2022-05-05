@@ -3,15 +3,17 @@ const firebaseAdmin = require("firebase-admin")
 
 describe('Obstacle Event Repository', () => {
     let obstacleRepository
-    let db
+    let dependencies
     beforeAll(() => {
         firebaseAdmin.initializeApp({
             projectId: process.env.FIREBASE_PROJECT_ID
         })
-        db = firebaseAdmin.firestore()
-        const dependencies = {
-            db,
-            admin: firebaseAdmin
+        dependencies = {
+            db: firebaseAdmin.firestore(),
+            admin: firebaseAdmin,
+            client: {
+                labelDetection: jest.fn().mockResolvedValue([{ labelAnnotations: [{ description: 'Catgirl' }] }])
+            }
         }
         obstacleRepository = require("../src/data_access_layer/obstacle_event_repository")(dependencies)
     })
@@ -43,5 +45,18 @@ describe('Obstacle Event Repository', () => {
                 ...obj
             })
         )
+    })
+
+    it('Should classify an obstacle', async () => {
+        // Given
+        const imageUrl = 'Some Image URL'
+        const labelDetectionSpy = jest
+            .spyOn(dependencies.client, 'labelDetection')
+            .mockResolvedValue([{ labelAnnotations: [{ description: 'Catgirl' }] }])
+        // When
+        const result = await obstacleRepository.getImageClassification(imageUrl)
+        // Then
+        expect(labelDetectionSpy).toHaveBeenCalledWith(imageUrl)
+        expect(result).toEqual('Catgirl')
     })
 })
