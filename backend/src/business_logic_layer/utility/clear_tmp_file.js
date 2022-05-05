@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 
 function clearTmpFile (filePath) {
-    const fileDir = path.dirname(filePath)
+    const fileDir = path.basename(path.dirname(filePath))
 
     if (fileDir !== 'tmp') {
         throw Error("Attempting to delete temporary file outside of tmp directory")
@@ -15,6 +15,4 @@ function clearTmpFile (filePath) {
     })
 }
 
-module.exports = {
-    clearTmpFile
-}
+module.exports = () => clearTmpFile

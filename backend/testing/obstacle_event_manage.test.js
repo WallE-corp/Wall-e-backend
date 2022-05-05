@@ -26,7 +26,8 @@ describe('Obstacle Event Manager', () => {
             },
             dtoValidator: {
                 validateObstacleEventDto: jest.fn().mockReturnValue(true)
-            }
+            },
+            clearTmpFile: jest.fn()
         }
         obstacleManager = obstacleManagerFunc(dependencies)
     })

@@ -1,8 +1,7 @@
 /* eslint-disable no-throw-literal */
 const { OBSTACLE_EVENT } = require('../presentation_layer/socketio/command_types')
-const { clearTmpFile } = require('./utility/clear_tmp_files')
 
-module.exports = ({ obstacleEventRepository, uploadImage, SocketIOServer, dtoValidator }) => {
+module.exports = ({ obstacleEventRepository, uploadImage, SocketIOServer, dtoValidator, clearTmpFile }) => {
     return {
         handleObstacleEvent: async (obstacleEventData) => {
             obstacleEventData.x = Number(obstacleEventData.x)
