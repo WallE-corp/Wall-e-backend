@@ -11,10 +11,11 @@ container.register({
     SocketIOServer: awilix.asClass(SocketIOServer).setLifetime(awilix.Lifetime.SINGLETON),
     storage: awilix.asFunction(getStorageConnection), // Cloud Storage
     db: awilix.asFunction(getDatabaseConnection), // Firestore
-    client: awilix.asFunction(getCloudVisionClient), // Cloud Vision Client
+    client: awilix.asFunction(getCloudVisionClient), // Cloud Vision API Client
     admin: awilix.asFunction(getAdminSDK) // Firebase Admin SDK
 })
 
+// Auto load modules by glob pattern
 const modules = [
     'src/data_access_layer/**/*.js',
     'src/business_logic_layer/**/*.js',

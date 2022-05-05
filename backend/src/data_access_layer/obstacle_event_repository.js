@@ -2,15 +2,15 @@
 
 function obstacleEventRepository ({ db, admin, client }) {
     async function addObstacleEvent (imageUrl, x, y, label) {
+        const obstacleEventDoc = {
+            imageUrl,
+            x,
+            y,
+            label,
+            timestamp: admin.firestore.FieldValue.serverTimestamp()
+        }
         try {
             const collectionRef = db.collection("obstacleEvents")
-            const obstacleEventDoc = {
-                imageUrl,
-                x,
-                y,
-                label,
-                timestamp: admin.firestore.FieldValue.serverTimestamp()
-            }
             const docRef = await collectionRef.add(obstacleEventDoc)
             const docSnap = await docRef.get()
             return {
