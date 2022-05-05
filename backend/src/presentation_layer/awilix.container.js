@@ -5,19 +5,14 @@ const container = awilix.createContainer()
 
 const { getDatabaseConnection, getStorageConnection, getAdminSDK } = require('../data_access_layer/database')
 const getCloudVisionClient = require('../data_access_layer/cloud_vision_client')
-// Get external connections
-const db = getDatabaseConnection() // Firestore
-const storage = getStorageConnection() // Cloud Storage
-const admin = getAdminSDK() // Firebase Admin SDK
-const client = getCloudVisionClient() // Cloud Vision Client
 const SocketIOServer = require('./socketio/')
 
 container.register({
     SocketIOServer: awilix.asClass(SocketIOServer).setLifetime(awilix.Lifetime.SINGLETON),
-    storage: awilix.asValue(storage),
-    db: awilix.asValue(db),
-    client: awilix.asValue(client),
-    admin: awilix.asValue(admin)
+    storage: awilix.asFunction(getStorageConnection), // Cloud Storage
+    db: awilix.asFunction(getDatabaseConnection), // Firestore
+    client: awilix.asFunction(getCloudVisionClient), // Cloud Vision Client
+    admin: awilix.asFunction(getAdminSDK) // Firebase Admin SDK
 })
 
 const modules = [
