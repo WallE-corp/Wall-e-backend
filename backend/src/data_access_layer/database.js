@@ -1,16 +1,17 @@
-const serviceAccount = require("./wall_e_db_private_key.json")
+const keys = require('./__keys__')
 const admin = require("firebase-admin")
 
 let initialized = false
 
 function initialize () {
+    const key = keys.getGoolgeCloudPlatformProjectKey()
     let config = {
-        credential: admin.credential.cert(serviceAccount),
+        credential: admin.credential.cert(key.serviceAccount),
         storageBucket: "wall-e-db.appspot.com"
     }
 
     if (process.env.FIREBASE_TARGET === "emulator") {
-        console.log("Using emulator")
+        console.log("Using emulator...")
         config = {
             projectId: process.env.FIREBASE_PROJECT_ID
         }

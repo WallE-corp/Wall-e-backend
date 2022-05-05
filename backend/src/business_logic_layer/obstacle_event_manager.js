@@ -14,8 +14,8 @@ module.exports = ({ obstacleEventRepository, uploadImage, SocketIOServer, dtoVal
             const { tmpImageFilePath, x, y } = obstacleEventData
 
             try {
-                // [Du Won] Store image in Cloud Storage
-                const imageUrl =  await uploadImage(tmpImageFilePath) 
+                // Store image in Cloud Storage
+                const imageUrl = await uploadImage(tmpImageFilePath)
 
                 // TODO: create external function for this
                 fs.unlink(tmpImageFilePath, (e) => {
@@ -38,7 +38,7 @@ module.exports = ({ obstacleEventRepository, uploadImage, SocketIOServer, dtoVal
                 console.error(e)
                 throw e
             }
-        },
+        }
 
     }
 }

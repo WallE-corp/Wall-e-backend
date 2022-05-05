@@ -1,13 +1,6 @@
 /* eslint-disable no-throw-literal */
 
-const vision = require("@google-cloud/vision")
-const path = require('path')
-
-const client = new vision.ImageAnnotatorClient({
-    keyFilename: path.join(__dirname,"google_cloud_auth_key.json")
-})
-
-function obstacleEventRepository ({ db, admin }) {
+function obstacleEventRepository ({ db, admin, client }) {
     async function addObstacleEvent (imageUrl, x, y, label) {
         try {
             const collectionRef = db.collection("obstacleEvents")
@@ -30,16 +23,19 @@ function obstacleEventRepository ({ db, admin }) {
         }
     }
 
-    async function getImageClassification(imageUrl){
-        try{
-            const results = await client.labelDetection(imageUrl)
-            return results[0].labelAnnotations[0].description
-        }catch (e) {
+    async function getImageClassification (imageUrl) {
+        try {
+            const [result] = await client.labelDetection(imageUrl)
+            if (result.error) {
+                console.error('CLoud Vision API:', result.error.message)
+                throw "Cloud Vision API failed to process image"
+            }
+            return result.labelAnnotations[0].description
+        } catch (e) {
             console.log(e)
             throw e
         }
-       
-    } 
+    }
 
     return {
         addObstacleEvent,

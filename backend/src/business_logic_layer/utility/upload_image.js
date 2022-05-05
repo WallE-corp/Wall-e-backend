@@ -13,7 +13,6 @@ module.exports = function ({ storage }) {
             return mediaLink
         } catch (error) {
             console.error(error)
-            console.error(error)
             throw "Image upload failed"
         }
     }
