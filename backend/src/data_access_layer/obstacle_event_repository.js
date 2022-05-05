@@ -28,7 +28,8 @@ function obstacleEventRepository ({ db, admin, client }) {
             const [result] = await client.labelDetection(imageUrl)
             if (result.error) {
                 console.error('CLoud Vision API:', result.error.message)
-                throw "Cloud Vision API failed to process image"
+                // throw "Cloud Vision API failed to process image"
+                return "Unknown"
             }
             return result.labelAnnotations[0].description
         } catch (e) {
