@@ -44,6 +44,21 @@ module.exports = function ({ db }) {
             })
         },
 
+        getLastPathPoint: function (callback) {
+            
+            const docRef = db.collection('maps').doc('mapTest').orderByKey().limiToLast(1)
+            docRef.get().then((snapshot) => {
+                if (!snapshot.empty){
+                    callback('NoExistingMap', null)
+                }else{
+                    callback(null, snapshot.data().PathPoints)
+                }
+            }).catch((e) => {
+                console.log(e)
+                callback('InternalError', null)
+            })
+        },
+
         /**
            * @param {Map<Number>} coordinates
            * @param {Map<String, Any>} callback

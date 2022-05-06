@@ -55,6 +55,6 @@ module.exports = function ({ pointManager }) {
         })
       
     })
-
+    
     return router
 }

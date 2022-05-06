@@ -59,7 +59,6 @@ module.exports = function ({ pointRepository }) {
             } else {
                 callback('InvalidCoordinates', null)
             }
-        }
-
+        },
     }
 }
