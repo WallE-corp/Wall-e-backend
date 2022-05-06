@@ -38,15 +38,9 @@ module.exports = function ({ pointManager }) {
         }
         pointManager.managePoint(point, function (error, managedPoint) {
             if (error) {
-                res.status(404).json(error)
+                res.status(500).json(error)
             } else {
-                pointManager.addPoint(managedPoint, function (errors) {
-                    if (errors) {
-                        res.status(500).send(errors)
-                        return
-                    }
-                    res.sendStatus(201)
-                })
+                res.sendStatus(201)
             }
         })
     })
