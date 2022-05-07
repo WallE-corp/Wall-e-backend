@@ -1,6 +1,4 @@
 /* eslint-disable no-throw-literal */
-const fs = require('fs')
-const path = require('path')
 const util = require('util')
 
 module.exports = function ({ pointRepository, addTwoPoints }) {
@@ -8,29 +6,8 @@ module.exports = function ({ pointRepository, addTwoPoints }) {
         pointRepository.getAllPathPoints(callback)
     }
 
-    function getLastPoint () {
-        const filePath = path.join(__dirname, '../data_access_layer/last_point.json')
-        if (fs.existsSync(filePath)) {
-            const fileData = fs.readFileSync(filePath)
-            const dataObject = JSON.parse(fileData)
-            return dataObject
-        }
-        return null
-    }
-
-    function setLastPoint (point) {
-        try {
-            const filePath = path.join(__dirname, '../data_access_layer/last_point.json')
-            fs.writeFileSync(filePath, JSON.stringify(point))
-            return true
-        } catch (e) {
-            console.error(e)
-            return false
-        }
-    }
-
     async function getPointRelativeToLast (point) {
-        const lastPoint = await this.getLastPoint()
+        const lastPoint = await pointRepository.getLastPoint()
         const currentPoint = lastPoint ? addTwoPoints(point, lastPoint) : JSON.parse(JSON.stringify(point))
         return currentPoint
     }
@@ -38,7 +15,7 @@ module.exports = function ({ pointRepository, addTwoPoints }) {
     async function addPointRelativeToLast (point) {
         // TODO: Validate pointDto
         const currentPoint = await this.getPointRelativeToLast(point)
-        const didSet = await this.setLastPoint(currentPoint)
+        const didSet = await pointRepository.setLastPoint(currentPoint)
         if (!didSet) throw "Could not set last point"
 
         try {
@@ -111,8 +88,6 @@ module.exports = function ({ pointRepository, addTwoPoints }) {
 
     return {
         getAllPathPoints,
-        getLastPoint,
-        setLastPoint,
         managePoint,
         addPoint,
         getPointRelativeToLast,
