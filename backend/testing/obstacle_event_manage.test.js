@@ -27,7 +27,15 @@ describe('Obstacle Event Manager', () => {
             dtoValidator: {
                 validateObstacleEventDto: jest.fn().mockReturnValue(true)
             },
-            clearTmpFile: jest.fn()
+            clearTmpFile: jest.fn(),
+            pointManager: {
+                getPointRelativeToLast: jest.fn().mockImplementation((point) => {
+                    return {
+                        x: point.x + 1,
+                        y: point.y + 1
+                    }
+                })
+            }
         }
         obstacleManager = obstacleManagerFunc(dependencies)
     })
@@ -47,11 +55,13 @@ describe('Obstacle Event Manager', () => {
         const getImageClassificationSpy = jest
             .spyOn(dependencies.obstacleEventRepository, 'getImageClassification')
             .mockResolvedValue('Human body')
+        const addObstacleEventSpy = jest.spyOn(dependencies.obstacleEventRepository, 'addObstacleEvent')
         // When
         const result = await obstacleManager.handleObstacleEvent(obstacleEventData)
         // Then
         expect(getImageClassificationSpy).toHaveBeenCalledWith('someImageLink')
         expect(sendCommandSpy).toHaveBeenCalledWith(9, null, result)
+        expect(addObstacleEventSpy).toHaveBeenCalledWith('someImageLink', 2, 3, 'Human body')
         expect(result).toEqual(mockObstacleEventObj)
     })
 

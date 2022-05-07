@@ -1,7 +1,7 @@
 /* eslint-disable no-throw-literal */
 const { OBSTACLE_EVENT } = require('../presentation_layer/socketio/command_types')
 
-module.exports = ({ obstacleEventRepository, uploadImage, SocketIOServer, dtoValidator, clearTmpFile }) => {
+module.exports = ({ obstacleEventRepository, uploadImage, SocketIOServer, dtoValidator, clearTmpFile, pointManager }) => {
     async function pushObstacleEvent (obstacleEvent) {
         SocketIOServer.sendCommand(OBSTACLE_EVENT, null, obstacleEvent)
     }
@@ -15,8 +15,8 @@ module.exports = ({ obstacleEventRepository, uploadImage, SocketIOServer, dtoVal
             throw "Validation Error"
         }
 
-        // TODO: Correct x and y values to get reall position on map
         const { tmpImageFilePath, x, y } = obstacleEventData
+        const realPos = await pointManager.getPointRelativeToLast({ x, y })
 
         try {
             // Store image in Cloud Storage
@@ -29,7 +29,7 @@ module.exports = ({ obstacleEventRepository, uploadImage, SocketIOServer, dtoVal
             const classification = await obstacleEventRepository.getImageClassification(imageUrl)
 
             // Create an obstacle event document in Cloud Firestore
-            const obstacleEvent = await obstacleEventRepository.addObstacleEvent(imageUrl, x, y, classification)
+            const obstacleEvent = await obstacleEventRepository.addObstacleEvent(imageUrl, realPos.x, realPos.y, classification)
 
             // notify mobile of obstacle event
             pushObstacleEvent(obstacleEvent)
