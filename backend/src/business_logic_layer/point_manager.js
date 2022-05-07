@@ -1,4 +1,7 @@
+/* eslint-disable no-throw-literal */
 const fs = require('fs')
+const path = require('path')
+const util = require('util')
 
 module.exports = function ({ pointRepository }) {
     function getAllPathPoints (callback) {
@@ -6,7 +9,7 @@ module.exports = function ({ pointRepository }) {
     }
 
     function getLastPoint () {
-        const filePath = './backend/src/data_access_layer/last_point.json'
+        const filePath = path.join(__dirname, '../data_access_layer/last_point.json')
         if (fs.existsSync(filePath)) {
             const fileData = fs.readFileSync(filePath)
             const dataObject = JSON.parse(fileData)
@@ -17,7 +20,7 @@ module.exports = function ({ pointRepository }) {
 
     function setLastPoint (point) {
         try {
-            const filePath = './backend/src/data_access_layer/last_point.json'
+            const filePath = path.join(__dirname, '../data_access_layer/last_point.json')
             fs.writeFileSync(filePath, JSON.stringify(point))
             return true
         } catch (e) {
@@ -26,8 +29,31 @@ module.exports = function ({ pointRepository }) {
         }
     }
 
+    function addPoints (pointA, pointB) {
+        return {
+            x: pointA.x + pointB.x,
+            y: pointA.y + pointB.y
+        }
+    }
+
+    async function addPointRelativeToLast (point) {
+        // TODO: Validate pointDto
+        const lastPoint = await this.getLastPoint()
+        const currentPoint = lastPoint ? this.addPoints(point, lastPoint) : JSON.parse(JSON.stringify(point))
+        const didSet = await this.setLastPoint(currentPoint)
+        if (!didSet) throw "Could not set last point"
+
+        try {
+            const asyncAddPoint = util.promisify(pointRepository.addPoint)
+            await asyncAddPoint(currentPoint)
+            return currentPoint
+        } catch (error) {
+            throw "Could not add point to database"
+        }
+    }
+
     /**
-     *
+     * @deprecated Use addPointRelativeToLast
      * @param {Map<Object, any>} point
      * @param { void } callback
      */
@@ -38,7 +64,7 @@ module.exports = function ({ pointRepository }) {
             callback('InvalidCoordinates', null)
         } else {
             // Get last point from file
-            const lastPoint = getLastPoint()
+            const lastPoint = this.getLastPoint()
             let currentPoint = JSON.parse(JSON.stringify(lastPoint))
 
             // Add lastPoint to point
@@ -49,7 +75,7 @@ module.exports = function ({ pointRepository }) {
             }
 
             // Save point to file
-            const didSave = setLastPoint(currentPoint)
+            const didSave = this.setLastPoint(currentPoint)
 
             if (!didSave) {
                 callback('CouldNotWriteToFile', null)
@@ -91,6 +117,8 @@ module.exports = function ({ pointRepository }) {
         setLastPoint,
         managePoint,
         addPoint,
-        getPointByCoordinateManager
+        addPoints,
+        getPointByCoordinateManager,
+        addPointRelativeToLast
     }
 }

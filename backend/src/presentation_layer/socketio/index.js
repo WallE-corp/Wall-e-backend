@@ -48,11 +48,9 @@ class SocketIOServer {
         this.commandFunctions[REGISTRATION] = (client, { data }) => {
             switch (data.role) {
             case 'remote':
-                console.log('Remote controller registered')
                 this.registerClient(data.role, client.id)
                 break
             case 'wall-e':
-                console.log('WallE registered')
                 this.registerClient(data.role, client.id)
                 break
             default:

@@ -14,7 +14,7 @@ describe("Point Manager", () => {
         pointManager = pointManagerFunc(dependencies)
     })
 
-    it('Should add correct point to database', () => {
+    it('Should add correct point to database', async () => {
         // Given
         const point = {
             x: 2,
@@ -31,9 +31,9 @@ describe("Point Manager", () => {
             .spyOn(pointManager, 'setLastPoint')
             .mockReturnValue(true)
         const addPointSpy = jest.spyOn(dependencies.pointRepository, 'addPoint')
-        // When
-        pointManager.managePoint(point, () => {})
 
+        // When
+        const newPoint = await pointManager.addPointRelativeToLast(point)
         // Then
         const expectedPoint = {
             x: 3,
@@ -42,5 +42,6 @@ describe("Point Manager", () => {
         expect(getLastPointSpy).toHaveBeenCalled()
         expect(setLastPointSpy).toHaveBeenCalledWith(expectedPoint)
         expect(addPointSpy).toHaveBeenCalledWith(expectedPoint, expect.any(Function))
+        expect(newPoint).toEqual(expectedPoint)
     })
 })
