@@ -3,7 +3,7 @@ const fs = require('fs')
 const path = require('path')
 const util = require('util')
 
-module.exports = function ({ pointRepository }) {
+module.exports = function ({ pointRepository, addTwoPoints }) {
     function getAllPathPoints (callback) {
         pointRepository.getAllPathPoints(callback)
     }
@@ -39,7 +39,7 @@ module.exports = function ({ pointRepository }) {
     async function addPointRelativeToLast (point) {
         // TODO: Validate pointDto
         const lastPoint = await this.getLastPoint()
-        const currentPoint = lastPoint ? this.addPoints(point, lastPoint) : JSON.parse(JSON.stringify(point))
+        const currentPoint = lastPoint ? addTwoPoints(point, lastPoint) : JSON.parse(JSON.stringify(point))
         const didSet = await this.setLastPoint(currentPoint)
         if (!didSet) throw "Could not set last point"
 

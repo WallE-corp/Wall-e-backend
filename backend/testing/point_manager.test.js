@@ -9,7 +9,8 @@ describe("Point Manager", () => {
                 addPoint: jest.fn().mockImplementation((point, callback) => {
                     callback(null)
                 })
-            }
+            },
+            addTwoPoints: require("../src/business_logic_layer/utility/add_two_points")()
         }
         pointManager = pointManagerFunc(dependencies)
     })
