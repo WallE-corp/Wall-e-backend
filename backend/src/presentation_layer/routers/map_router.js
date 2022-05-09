@@ -11,5 +11,17 @@ module.exports = function ({ mapRepository, mapManager }) {
             }
         })
     })
+
+    // To Create A New Map
+    router.post("/create", (req, res) => {
+        mapManager.createMap((error) => {
+            if (error) {
+                res.status(503).json(error)
+            } else {
+                res.statusCode(203)
+            }
+        })
+    })
+
     return router
 }
