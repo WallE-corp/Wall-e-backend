@@ -23,7 +23,7 @@ Stop all containers with:
 ### AWS Lightsail dev server
 
 For development testing without running locally, connect to development server running on AWS Lightsail at:
-    `13.49.160.252:3000`
+    `16.170.55.194:3000`
 
 ## Testing
 Because of issues with Docker and firebase emulator, testing should be done outside the Docker container.
