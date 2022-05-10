@@ -30,19 +30,26 @@ module.exports = function ({ pointManager }) {
         })
     })
 
-    router.post('/', (req, res) => {
-        console.log(req.body)
+    router.post('/', async (req, res) => {
         const point = {
             x: parseFloat(req.body.x),
             y: parseFloat(req.body.y)
         }
-        pointManager.managePoint(point, function (error, managedPoint) {
+        try {
+            const translatedPoint = await pointManager.addPointRelativeToLast(point)
+            console.log(translatedPoint)
+            res.sendStatus(201)
+        } catch (e) {
+            console.log(e)
+            res.status(500).json(e)
+        }
+        /* pointManager.managePoint(point, function (error, managedPoint) {
             if (error) {
                 res.status(500).json(error)
             } else {
                 res.sendStatus(201)
             }
-        })
+        }) */
     })
 
     return router

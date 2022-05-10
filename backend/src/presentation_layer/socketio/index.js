@@ -11,7 +11,7 @@ const socketIo = require('socket.io')
  */
 
 // Enums -------------
-const { MOVEMENT, REGISTRATION, OBSTACLE_EVENT } = require('./command_types')
+const { MOVEMENT, REGISTRATION, OBSTACLE_EVENT, POSITION_DATA } = require('./command_types')
 //
 
 class SocketIOServer {
@@ -70,6 +70,12 @@ class SocketIOServer {
                 this.io.to(this.remoteClientId).emit('message', JSON.stringify(data))
             }
         }
+        // Position data
+        this.commandFunctions[POSITION_DATA] = (client, data) => {
+            if (this.remoteClientId) {
+                this.io.to(this.remoteClientId).emit('message', JSON.stringify(data))
+            }
+        }
     }
 
     onMessage (client, message) {
@@ -77,6 +83,7 @@ class SocketIOServer {
             const messageData = JSON.parse(message)
             const commandFunction = this.commandFunctions[`${messageData.type}`]
             commandFunction(client, messageData)
+            console.log(messageData)
         } catch (e) {
             console.log(e)
         }

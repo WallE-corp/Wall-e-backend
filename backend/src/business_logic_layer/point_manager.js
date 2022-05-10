@@ -1,7 +1,8 @@
 /* eslint-disable no-throw-literal */
 const util = require('util')
+const { POSITION_DATA } = require('../presentation_layer/socketio/command_types')
 
-module.exports = function ({ pointRepository, addTwoPoints }) {
+module.exports = function ({ pointRepository, addTwoPoints, SocketIOServer }) {
     function getAllPathPoints (callback) {
         pointRepository.getAllPathPoints(callback)
     }
@@ -21,8 +22,13 @@ module.exports = function ({ pointRepository, addTwoPoints }) {
         try {
             const asyncAddPoint = util.promisify(pointRepository.addPoint)
             await asyncAddPoint(currentPoint)
+            SocketIOServer.sendCommand(POSITION_DATA, null, {
+                // TODO: Send mapId as well
+                ...currentPoint
+            })
             return currentPoint
         } catch (error) {
+            console.log(error)
             throw "Could not add point to database"
         }
     }

@@ -8,9 +8,14 @@ describe("Point Manager", () => {
             pointRepository: {
                 addPoint: jest.fn().mockImplementation((point, callback) => {
                     callback(null)
-                })
+                }),
+                getLastPoint: jest.fn().mockResolvedValue({ x: 1, y: 2 }),
+                setLastPoint: jest.fn().mockResolvedValue(true)
             },
-            addTwoPoints: require("../src/business_logic_layer/utility/add_two_points")()
+            addTwoPoints: require("../src/business_logic_layer/utility/add_two_points")(),
+            SocketIOServer: {
+                sendCommand: jest.fn()
+            }
         }
         pointManager = pointManagerFunc(dependencies)
     })
@@ -26,10 +31,10 @@ describe("Point Manager", () => {
             y: 1
         }
         const getLastPointSpy = jest
-            .spyOn(pointManager, 'getLastPoint')
+            .spyOn(dependencies.pointRepository, 'getLastPoint')
             .mockReturnValue(lastPoint)
         const setLastPointSpy = jest
-            .spyOn(pointManager, 'setLastPoint')
+            .spyOn(dependencies.pointRepository, 'setLastPoint')
             .mockReturnValue(true)
         const addPointSpy = jest.spyOn(dependencies.pointRepository, 'addPoint')
 

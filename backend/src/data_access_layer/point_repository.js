@@ -39,8 +39,8 @@ module.exports = function ({ db, admin }) {
     function addPoint (coordinates, callback) {
         const docRef = db.collection('maps').doc('mapTest')
         docRef.update({
-
             points: admin.firestore.FieldValue.arrayUnion({
+                timestamp: Date.now(),
                 coordinates: coordinates
             })
         }).then(() => {
