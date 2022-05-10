@@ -1,2 +1,7 @@
 node_modules
-/src/data_access_layer/wall_e_db_private_key.json
+/src/**/*/wall*.json
+
+/src/**/*/data/tmp/**/*
+!/src/**/*/data/tmp/tmp
+
+.env

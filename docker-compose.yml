@@ -4,8 +4,20 @@ services:
   backend:
     build: "./backend"
     ports:
-      - "3000:8080"
+      - "3000:3000"
     volumes:
       - "./backend/src:/backend/src"
+  firebase-tools:
+    container_name: firebase-tools
+    profiles: ["dev"]
+    image: andreysenov/firebase-tools:latest
+    volumes:
+      - "./firebase_emulator_suite/:/home/node"
+    ports:
+      - "8080:8080"
+      - "9199:9199"
+      - "4000:4000"
+    command: ["firebase", "emulators:start"]
+
     
 

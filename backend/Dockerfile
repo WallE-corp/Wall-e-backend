@@ -5,11 +5,10 @@ EXPOSE 8080
 WORKDIR /backend
 
 COPY package*.json ./
+COPY .env ./
 
 RUN npm install
 
-COPY src/presentation_layer/app.js ./src/ 
-
-COPY src src
+COPY ./ ./
 
 CMD ["npm", "run", "start"]
