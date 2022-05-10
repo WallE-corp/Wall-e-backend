@@ -4,4 +4,6 @@ node_modules
 /src/**/*/data/tmp/**/*
 !/src/**/*/data/tmp/tmp
 
+/**/*/last_point.json
+
 .env
