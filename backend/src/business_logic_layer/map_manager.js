@@ -5,7 +5,8 @@ module.exports = function ({ mapRepository }) {
         },
 
         createMap: function (callback) {
-            const lastMapIdNumber = getLastMapIdNumber() // Returns the number of the last used map.
+            const filePath = './backend/src/data_access_layer/map.json'
+            const lastMapIdNumber = getLastMapIdNumber(filePath) // Returns the number of the last used map.
             var mapId = "map_1"
             /*
             * Each Map Id will be "map_" and a Number after the "_". 
@@ -16,18 +17,27 @@ module.exports = function ({ mapRepository }) {
             */
             if (lastMapIdNumber)
                 mapId = "map_" + (lastMapIdNumber + 1)
-            mapRepository.createMap(mapId, callback)
+
+            const id = JSON.stringify(mapId, null, 2);
+            fs.writeFile(filePath, id, (error) => {
+                if (error) {
+                    callback('CouldNotWriteToFile', null)
+                    return
+                }
+                mapRepository.createMap(mapId, callback)
+            })
 
         },
-        getLastMapId: function () {
-            const filePath = './backend/src/data_access_layer/map.json'
+
+        getLastMapId: function (filePath) {
             const data = fs.readFileSync(filePath)
-            if (data)
-                return JSON.parse(data)
+            const id = data.id
+            if (id)
+                return JSON.parse(id)
             return
         },
-        getLastMapIdNumber: function () {
-            const idAsString = getLastMapId()  // This function returns the Last Map Id, that should be saved in a JSON file
+        getLastMapIdNumber: function (filePath) {
+            const idAsString = getLastMapId(filePath)  // This function returns the Last Map Id, that should be saved in a JSON file
             const numberPattern = "/\d+/g"
             var idNumber = 0
             if (idAsString)
