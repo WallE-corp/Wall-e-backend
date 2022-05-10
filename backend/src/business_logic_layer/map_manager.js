@@ -3,5 +3,6 @@ module.exports = function ({ mapRepository }) {
         getAllMaps: function (callback) {
             mapRepository.getAllMaps(callback)
         }
+
     }
 }
