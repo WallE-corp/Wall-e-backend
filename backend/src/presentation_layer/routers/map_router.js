@@ -18,7 +18,7 @@ module.exports = function ({ mapRepository, mapManager }) {
             if (error) {
                 res.status(503).json(error)
             } else {
-                res.statusCode(203)
+                res.sendStatus(203)
             }
         })
     })

@@ -37,7 +37,7 @@ module.exports = function ({ mapRepository }) {
             return
         },
         getLastMapIdNumber: function (filePath) {
-            const idAsString = getLastMapId(filePath)  // This function returns the Last Map Id, that should be saved in a JSON file
+            const idAsString = getLastMapId(filePath)
             const numberPattern = "/\d+/g"
             var idNumber = 0
             if (idAsString)
