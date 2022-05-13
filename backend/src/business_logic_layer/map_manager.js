@@ -28,5 +28,6 @@ module.exports = function ({ mapRepository }) {
                 idNumber = parseInt(idAsString.match(numberPattern))
             return idNumber
         }
+
     }
 }

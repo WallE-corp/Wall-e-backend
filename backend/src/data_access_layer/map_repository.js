@@ -24,7 +24,18 @@ module.exports = function ({ db }) {
             if (id)
                 return JSON.parse(id)
             return
-        },
-        
+        },        
+        getMapById: function (id, callback) {
+            const docRef = db.collection('maps')
+            docRef.doc(id).get().then((document) => {
+                if (document.empty) {
+                    callback(['documnetNotFound'], null)
+                } else {
+                    const map = new Map()
+                    map.set(document.data())
+                    callback(null, map)
+                }
+            })
+        }
     }
 }
