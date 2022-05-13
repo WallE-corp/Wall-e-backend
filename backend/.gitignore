@@ -1,5 +1,6 @@
 node_modules
 /src/**/*/wall*.json
+/src/**/map.json
 
 /src/**/*/data/tmp/**/*
 !/src/**/*/data/tmp/tmp

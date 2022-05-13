@@ -17,28 +17,28 @@ module.exports = function ({ pointRepository }) {
         managePoint: function (point, callback) {
             if (Object.keys(point).empty) {
                 callback('PointEmpty', null)
-            }else if (!point.x || !point.y) {
+            } else if (!point.x || !point.y) {
                 callback('InvalidCoordinates', null)
-            }  else {
+            } else {
                 const filePath = './backend/src/data_access_layer/last_point.json'
                 let lastPoint
-                if(fs.existsSync(filePath)){
-                    lastPoint = fs.readFileSync( filePath)
+                if (fs.existsSync(filePath)) {
+                    lastPoint = fs.readFileSync(filePath)
                     lastPoint = JSON.parse(lastPoint)
                     lastPoint.x = point.x + lastPoint.x
                     lastPoint.y = point.y + lastPoint.y
-                }else{
+                } else {
                     lastPoint = point
-                }      
+                }
 
                 let data = JSON.stringify(lastPoint, null, 2);
-                
+
                 fs.writeFile(filePath, data, (error) => {
                     if (error) {
-                        callback('CouldNotWriteToFile',null)
+                        callback('CouldNotWriteToFile', null)
                         return
                     }
-                    callback(null,lastPoint)
+                    callback(null, lastPoint)
                 })
             }
         },
