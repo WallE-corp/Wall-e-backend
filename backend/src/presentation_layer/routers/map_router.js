@@ -13,12 +13,20 @@ module.exports = function ({ mapRepository, mapManager }) {
     })
 
     // To Create A New Map
-    router.post("/create", (req, res) => {
-        mapManager.createMap((error) => {
+    router.post("/", (req, res) => {
+        mapManager.createMap((error, mapId) => {
             if (error) {
                 res.status(503).json(error)
             } else {
-                res.sendStatus(203)
+                const id = JSON.stringify(mapId, null, 2);
+                fs.writeFile(filePath, id, (error) => {
+                    if (error) {
+                        res.status(503).json(error)
+                        return
+                    }
+                    res.sendStatus(203)
+
+                })
             }
         })
     })

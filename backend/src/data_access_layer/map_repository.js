@@ -17,6 +17,14 @@ module.exports = function ({ db }) {
                     callback(null, map)
                 }
             })
-        }
+        },     
+        getLastMapId: function (filePath) {
+            const data = fs.readFileSync(filePath)
+            const id = data.id
+            if (id)
+                return JSON.parse(id)
+            return
+        },
+        
     }
 }
