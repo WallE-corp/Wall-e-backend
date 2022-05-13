@@ -14,19 +14,12 @@ module.exports = function ({ mapManager }) {
 
     // To Create A New Map
     router.post("/", (req, res) => {
-        mapManager.createMap((error, mapId) => {
+        
+        mapManager.createMap((error) => {
             if (error) {
                 res.status(503).json(error)
             } else {
-                const id = JSON.stringify(mapId, null, 2);
-                fs.writeFile(filePath, id, (error) => {
-                    if (error) {
-                        res.status(503).json(error)
-                        return
-                    }
-                    res.sendStatus(203)
-
-                })
+                res.sendStatus(203)
             }
         })
     })

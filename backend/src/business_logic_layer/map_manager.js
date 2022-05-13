@@ -18,7 +18,22 @@ module.exports = function ({ mapRepository }) {
             if (lastMapIdNumber)
                 mapId = "map_" + (lastMapIdNumber + 1)
 
-            mapRepository.createMap(mapId, callback)
+            mapRepository.createMap(mapId, (error)=>{
+                if(error){
+                    callback(error)
+                    return
+                }
+
+                mapRepository.setLastMapId(mapId, (error)=>{
+                    if (error) {
+                        callback(error)
+                        return
+                    }
+                    callback()
+                })
+            })
+
+            
         },
         getNumberFromMapId: function (filePath) {
             const idAsString = mapRepository.getLastMapId(filePath)

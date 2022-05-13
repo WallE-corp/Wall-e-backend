@@ -1,3 +1,6 @@
+const admin = require("firebase-admin")
+
+
 module.exports = function ({ db }) {
     return {
 
@@ -36,6 +39,24 @@ module.exports = function ({ db }) {
                     callback(null, map)
                 }
             })
+        },
+        setLastMapId: function(mapId,callback){
+
+            const id = JSON.stringify(mapId, null, 2);
+            fs.writeFile(filePath, id, callback)
+        },
+
+        createMap: function(mapId, callback){
+            const docRef = admin.firestore().collection('maps').doc(mapId)
+            docRef.set({
+                PathPoints:[],
+                Obstacles: []
+            }).then(() => {
+
+             callback(null)
+         }).catch((error) => {
+             callback(error)
+         })
         }
     }
 }
