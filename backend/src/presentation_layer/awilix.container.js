@@ -5,8 +5,9 @@ const container = awilix.createContainer()
 
 // Get db connection
 const db = require('../data_access_layer/database')
-const db = getDbConnection()
-container.register('db', awilix.asValue(db))
+container.register('db', awilix.asValue(db.getDatabaseConnection()))
+container.register('admin', awilix.asValue(db.getAdminSDK()))
+container.register('storage', awilix.asValue(db.getStorageConnection()))
 
 // reposositories (replace the code below to our needs)
 const pointRepository = require('../data_access_layer/point_repository')
@@ -18,6 +19,7 @@ const mapManager = require('../business_logic_layer/map_manager')
 const mapRouter = require('./routers/map_router')
 
 const obstacleRouter = require('./routers/obstacle_router')
+const obstacleEventRepository = require('../data_access_layer/obstacle_event_repository')
 const obstacleEventManager = require('../business_logic_layer/obstacle_event_manager')
 
 const SocketIOServer = require('./socketio/')
@@ -32,6 +34,8 @@ container.register('mapRouter', awilix.asFunction(mapRouter))
 
 container.register('SocketIOServer', awilix.asClass(SocketIOServer))
 container.register('obstacleRouter', awilix.asFunction(obstacleRouter))
+container.register('obstacleEventRepository', awilix.asFunction(obstacleEventRepository))
+
 container.register('obstacleEventManager', awilix.asFunction(obstacleEventManager))
 
 const { Storage } = require('@google-cloud/storage')
