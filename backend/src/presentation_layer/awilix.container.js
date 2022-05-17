@@ -4,8 +4,14 @@ const awilix = require('awilix')
 const container = awilix.createContainer()
 
 // Get db connection
-const db = require('../data_access_layer/database')
-container.register('db', awilix.asValue(db.getDatabaseConnection))
+const { getDatabaseConnection, getStorageConnection, getAdminSDK } = require('../data_access_layer/database')
+const db = getDatabaseConnection()
+const storage = getStorageConnection()
+const admin = getAdminSDK()
+container.register('db',awilix.asValue(db))
+container.register('storage',awilix.asValue(storage))
+container.register('admin',awilix.asValue(admin))
+
 
 // reposositories (replace the code below to our needs)
 const pointRepository = require('../data_access_layer/point_repository')
