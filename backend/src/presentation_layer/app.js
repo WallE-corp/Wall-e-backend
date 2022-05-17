@@ -11,6 +11,13 @@ const point_router = container.resolve('pointRouter')
 const map_router = container.resolve('mapRouter')
 const socketIOServer = container.resolve('SocketIOServer')
 const obstacle_router = container.resolve('obstacleRouter')
+const pointManager = container.resolve('pointManager')
+const mapManager = container.resolve('mapManager')
+const obstacleManager = container.resolve('obstacleManager')
+const pointRepository = container.resolve('pointRepository')
+const mapRepository = container.resolve('mapRepository')
+const obstacleRepository = container.resolve('obstacleRepository')
+
 
 const server = require('http').createServer(app)
 
