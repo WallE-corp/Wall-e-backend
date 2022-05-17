@@ -1,52 +1,56 @@
 const awilix = require('awilix')
 
-// awilix container
+// awilix containers
 const container = awilix.createContainer()
 
 // Get db connection
-const { getDatabaseConnection, getStorageConnection, getAdminSDK } = require('../data_access_layer/database')
-const db = getDatabaseConnection()
-const storage = getStorageConnection()
-const admin = getAdminSDK()
+const db = require('../data_access_layer/database')
+container.register('db', awilix.asValue(db.getDatabaseConnection))
+
+// reposositories (replace the code below to our needs)
+const pointRepository = require('../data_access_layer/point_repository')
+const pointManager = require('../business_logic_layer/point_manager')
 const pointRouter = require('./routers/point_router')
+
+const mapRepository = require('../data_access_layer/map_repository')
+const mapManager = require('../business_logic_layer/map_manager')
 const mapRouter = require('./routers/map_router')
+
 const obstacleRouter = require('./routers/obstacle_router')
-const pointManager = require('./routers/point_router')
-const mapManager = require('./routers/map_router')
-const obstacleManager = require('./routers/obstacle_router')
-const pointRepository = require('./routers/point_router')
-const mapRepository = require('./routers/map_router')
-const obstacleRepository = require('./routers/obstacle_router')
+const obstacleEventManager = require('../business_logic_layer/obstacle_event_manager')
+const obstacleEventRepository = require('../data_access_layer/obstacle_event_repository')
+
 const SocketIOServer = require('./socketio/')
 
-container.register({
-    SocketIOServer: awilix.asClass(SocketIOServer).setLifetime(awilix.Lifetime.SINGLETON),
-    storage: awilix.asValue(storage),
-    db: awilix.asValue(db),
-    admin: awilix.asValue(admin),
-    pointRouter:  awilix.asFunction(pointRouter),
-    mapRouter:  awilix.asFunction(mapRouter),
-    obstacleRouter:  awilix.asFunction(obstacleRouter),
+container.register('pointRepository', awilix.asFunction(pointRepository))
+container.register('pointManager', awilix.asFunction(pointManager))
+container.register('pointRouter', awilix.asFunction(pointRouter))
 
-    pointManager: awilix.asFunction(pointManager),
-    mapManager: awilix.asFunction(mapManager),
-    obstacleManager: awilix.asFunction(obstacleManager),
+container.register('mapRepository', awilix.asFunction(mapRepository))
+container.register('mapManager', awilix.asFunction(mapManager))
+container.register('mapRouter', awilix.asFunction(mapRouter))
 
-    pointRepository: awilix.asFunction(pointRepository),
-    mapRepository: awilix.asFunction(mapRepository),
-    obstacleRepository: awilix.asFunction(obstacleRepository)
-})
+container.register('SocketIOServer', awilix.asClass(SocketIOServer).setLifetime(awilix.Lifetime.SINGLETON))
+container.register('obstacleRouter', awilix.asFunction(obstacleRouter))
+container.register('obstacleEventManager', awilix.asFunction(obstacleEventManager))
+container.register('obstacleEventRepository', awilix.asFunction(obstacleEventRepository))
+
+const { Storage } = require('@google-cloud/storage')
+container.register('storage', awilix.asClass(Storage))
+
+const uploadImage = require('../business_logic_layer/utility/upload_image')
+container.register('uploadImage', awilix.asFunction(uploadImage))
 
 // const modules = [
 //     'src/data_access_layer/**/*.js',
 //     'src/business_logic_layer/**/*.js',
 //     'src/presentation_layer/routers/**/*.js'
 // ]
-container.loadModules(modules, {
-    formatName: 'camelCase'
-})
+// container.loadModules(modules, {
+//     formatName: 'camelCase'
+// })
 
-const autoLoadedModules = awilix.listModules(modules)
-console.log("Auto-loaded modules", autoLoadedModules.map(m => m.name))
+// const autoLoadedModules = awilix.listModules(modules)
+// console.log("Auto-loaded modules", autoLoadedModules.map(m => m.name))
 
 module.exports = container
