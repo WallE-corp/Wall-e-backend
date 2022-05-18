@@ -1,5 +1,5 @@
 /* eslint-disable no-throw-literal */
-function obstacleEventRepository ({ db, admin }) {
+module.exports = function obstacleEventRepository ({ db, admin }) {
     async function addObstacleEvent (imageUrl, x, y, label) {
         try {
             const collectionRef = db.collection("obstacleEvents")
@@ -27,4 +27,3 @@ function obstacleEventRepository ({ db, admin }) {
     }
 }
 
-module.exports = obstacleEventRepository
