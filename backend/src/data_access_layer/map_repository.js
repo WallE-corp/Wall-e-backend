@@ -17,6 +17,25 @@ module.exports = function ({ db }) {
                     callback(null, map)
                 }
             })
+        },     
+        getLastMapId: function (filePath) {
+            const data = fs.readFileSync(filePath)
+            const id = data.id
+            if (id)
+                return JSON.parse(id)
+            return
+        },        
+        getMapById: function (id, callback) {
+            const docRef = db.collection('maps')
+            docRef.doc(id).get().then((document) => {
+                if (document.empty) {
+                    callback(['documnetNotFound'], null)
+                } else {
+                    const map = new Map()
+                    map.set(document.data())
+                    callback(null, map)
+                }
+            })
         }
     }
 }

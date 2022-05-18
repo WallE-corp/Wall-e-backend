@@ -6,6 +6,10 @@ const bodyParser = require('body-parser')
 
 const container = require('./awilix.container')
 
+
+
+const a = container.registrations
+console.log(a)
 // resolve the containers
 const point_router = container.resolve('pointRouter')
 const map_router = container.resolve('mapRouter')
@@ -27,7 +31,7 @@ app.use('/pathpoints', point_router)
 app.use('/map', map_router)
 app.use('/obstacle', obstacle_router)
 
-server.listen(3000, function () {
+app.listen(8080, function () {
     console.log("Web application listening on port 3000.")
 })
 

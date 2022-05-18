@@ -1,6 +1,5 @@
 /* eslint-disable no-throw-literal */
-
-function obstacleEventRepository ({ db, admin, client }) {
+module.exports = function obstacleEventRepository ({ db, admin, client }) {
     async function addObstacleEvent (imageUrl, x, y, label) {
         const obstacleEventDoc = {
             imageUrl,
@@ -43,5 +42,3 @@ function obstacleEventRepository ({ db, admin, client }) {
         getImageClassification
     }
 }
-
-module.exports = obstacleEventRepository

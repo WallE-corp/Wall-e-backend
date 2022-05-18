@@ -1,6 +1,5 @@
 const awilix = require('awilix')
 
-// awilix container
 const container = awilix.createContainer()
 
 const { getDatabaseConnection, getStorageConnection, getAdminSDK } = require('../data_access_layer/database')
