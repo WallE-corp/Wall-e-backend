@@ -23,7 +23,7 @@ Stop all containers with:
 ### AWS Lightsail dev server
 
 For development testing without running locally, connect to development server running on AWS Lightsail at:
-    `16.170.55.194:3000`
+    `13.49.136.160:3000`
 
 ## Testing
 Because of issues with Docker and firebase emulator, testing should be done outside the Docker container.
@@ -35,10 +35,17 @@ Testing also requires that the firebase emulators are up and running.
     
 
 ## Firebase development targets
-### Live
-When targeting the live firebase make sure to include the necessary credentials files in the `data_access_layer`.
-### Emulator
+### Targeting Live
+When targeting the live firebase make sure to include the necessary credentials files in the `data_access_layer/__keys__`.
+For now the only key you should need is `wall_e_db_private_key.json`. Ask Tifye for this key.
+
+Ensure to set the correct environment variables for running live. [See below](#environmental-variables)
+### Targeting Emulator
 For now, targeting the emulator does not work when running with docker. 
+
+#### Requirements
+*   Java
+*   Node
 
 Firebase emulators are really useful for testing and prototyping. Once they are running you can access their UI at `localhost:4000`. The firebase emulators are developed by google themselves and are not thirdparty.
 #### How to setup
@@ -71,19 +78,21 @@ Firebase emulators are really useful for testing and prototyping. Once they are 
 
     ID of the firebase project (Both for emulator and live)
 
-    Should be left unchanged from `walle-<...>`. Ask Du Won for project Id
+    Should be left unchanged from `walle-<...>`. Ask for project Id
 
 * **GCLOUD_PROJECT**
 
     Should be same as __FIREBASE_PROJECT_ID__ variable.
 
 * **FIRESTORE_EMULATOR_HOST**
+    
     -*INCLUDE ONLY IF RUNNING EMULATOR*
 
     The address of the local firestore emulator
 
 * **FIREBASE_STORAGE_EMULATOR_HOST**
-    -*INCLUDE ONLY IF RUNNING EMULATOR*
+   
+   -*INCLUDE ONLY IF RUNNING EMULATOR*
 
     The address of the local cloud storage emulator
 

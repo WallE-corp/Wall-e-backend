@@ -1,65 +1,103 @@
-const fs = require('fs')
-const { fileURLToPath } = require('url')
+/* eslint-disable no-throw-literal */
+const util = require('util')
+const { POSITION_DATA } = require('../presentation_layer/socketio/command_types')
 
+module.exports = function ({ pointRepository, addTwoPoints, SocketIOServer }) {
+    function getAllPathPoints (callback) {
+        pointRepository.getAllPathPoints(callback)
+    }
 
-module.exports = function ({ pointRepository }) {
-    return {
+    async function getPointRelativeToLast (point) {
+        const lastPoint = await pointRepository.getLastPoint()
+        const currentPoint = lastPoint ? addTwoPoints(point, lastPoint) : JSON.parse(JSON.stringify(point))
+        return currentPoint
+    }
 
-        getAllPathPoints: function (callback) {
-            pointRepository.getAllPathPoints(callback)
-        },
+    async function addPointRelativeToLast (point) {
+        // TODO: Validate pointDto
+        const currentPoint = await this.getPointRelativeToLast(point)
+        const didSet = await pointRepository.setLastPoint(currentPoint)
+        if (!didSet) throw "Could not set last point"
 
-        /**
-         * 
-         * @param {Map<Object, any>} point 
-         * @param { void } callback 
-         */
-        managePoint: function (point, callback) {
-            if (Object.keys(point).empty) {
-                callback('PointEmpty', null)
-            } else if (!point.x || !point.y) {
-                callback('InvalidCoordinates', null)
-            } else {
-                const filePath = './backend/src/data_access_layer/last_point.json'
-                let lastPoint
-                if (fs.existsSync(filePath)) {
-                    lastPoint = fs.readFileSync(filePath)
-                    lastPoint = JSON.parse(lastPoint)
-                    lastPoint.x = point.x + lastPoint.x
-                    lastPoint.y = point.y + lastPoint.y
-                } else {
-                    lastPoint = point
-                }
-
-                let data = JSON.stringify(lastPoint, null, 2);
-
-                fs.writeFile(filePath, data, (error) => {
-                    if (error) {
-                        callback('CouldNotWriteToFile', null)
-                        return
-                    }
-                    callback(null, lastPoint)
-                })
-            }
-        },
-        addPoint: function (coordinates, callback) {
-            if (!coordinates.x || !coordinates.y) { return }
-            pointRepository.addPoint(coordinates, callback)
-        },
-
-        /**
-         * @param {Map<Object, number>} coordinates
-         * @param {String} mapId
-         * @param {void} callback
-         */
-        getPointByCoordinateManager: function (mapId, coordinates, callback) {
-            if (mapId.length == 0) callback('InvalidMapId', null)
-            else if ((coordinates.x && coordinates.y)) {
-                pointRepository.getPointByCoordinate(mapId, coordinates, callback)
-            } else {
-                callback('InvalidCoordinates', null)
-            }
+        try {
+            const asyncAddPoint = util.promisify(pointRepository.addPoint)
+            await asyncAddPoint(currentPoint)
+            SocketIOServer.sendCommand(POSITION_DATA, null, {
+                // TODO: Send mapId as well
+                ...currentPoint
+            })
+            return currentPoint
+        } catch (error) {
+            console.log(error)
+            throw "Could not add point to database"
         }
+    }
 
+    /**
+     * @deprecated Use addPointRelativeToLast
+     * @param {Map<Object, any>} point
+     * @param { void } callback
+     */
+    function managePoint (point, callback) {
+        if (Object.keys(point).empty) {
+            callback('PointEmpty', null)
+        } else if (!point.x || !point.y) {
+            callback('InvalidCoordinates', null)
+        } else {
+            // Get last point from file
+            const lastPoint = this.getLastPoint()
+            let currentPoint = JSON.parse(JSON.stringify(lastPoint))
+
+            // Add lastPoint to point
+            if (currentPoint === null) currentPoint = point
+            else {
+                currentPoint.x = point.x + currentPoint.x
+                currentPoint.y = point.y + currentPoint.y
+            }
+
+            // Save point to file
+            const didSave = this.setLastPoint(currentPoint)
+
+            if (!didSave) {
+                callback('CouldNotWriteToFile', null)
+                return
+            }
+
+            // Add point to database
+            pointRepository.addPoint(currentPoint, (errors) => {
+                if (errors) {
+                    callback(errors, null)
+                    return
+                }
+                callback(null, currentPoint)
+            })
+        }
+    }
+
+    /**
+     * @param {Map<Object, number>} coordinates
+     * @param {String} mapId
+     * @param {void} callback
+     */
+    function getPointByCoordinateManager (mapId, coordinates, callback) {
+        if (mapId.length === 0) callback('InvalidMapId', null)
+        else if ((coordinates.x && coordinates.y)) {
+            pointRepository.getPointByCoordinate(mapId, coordinates, callback)
+        } else {
+            callback('InvalidCoordinates', null)
+        }
+    }
+    function addPoint (coordinates, callback) {
+        if (!coordinates.x || !coordinates.y) { return }
+        pointRepository.addPoint(coordinates, callback)
+    }
+
+    return {
+        getAllPathPoints,
+        managePoint,
+        addPoint,
+        getPointRelativeToLast,
+        getPointByCoordinateManager,
+        addPointRelativeToLast
     }
 }

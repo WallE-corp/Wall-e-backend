@@ -15,7 +15,8 @@ describe('Obstacle Event Manager', () => {
     beforeAll(() => {
         dependencies = {
             obstacleEventRepository: {
-                addObstacleEvent: jest.fn().mockResolvedValue(mockObstacleEventObj)
+                addObstacleEvent: jest.fn().mockResolvedValue(mockObstacleEventObj),
+                getImageClassification: jest.fn().mockResolvedValue('Human body')
             },
             uploadImage: jest.fn().mockResolvedValue('someImageLink'),
             SocketIOServer: {
@@ -25,6 +26,15 @@ describe('Obstacle Event Manager', () => {
             },
             dtoValidator: {
                 validateObstacleEventDto: jest.fn().mockReturnValue(true)
+            },
+            clearTmpFile: jest.fn(),
+            pointManager: {
+                getPointRelativeToLast: jest.fn().mockImplementation((point) => {
+                    return {
+                        x: point.x + 1,
+                        y: point.y + 1
+                    }
+                })
             }
         }
         obstacleManager = obstacleManagerFunc(dependencies)
@@ -42,11 +52,16 @@ describe('Obstacle Event Manager', () => {
             y: 2
         }
         const sendCommandSpy = jest.spyOn(dependencies.SocketIOServer, 'sendCommand')
+        const getImageClassificationSpy = jest
+            .spyOn(dependencies.obstacleEventRepository, 'getImageClassification')
+            .mockResolvedValue('Human body')
+        const addObstacleEventSpy = jest.spyOn(dependencies.obstacleEventRepository, 'addObstacleEvent')
         // When
         const result = await obstacleManager.handleObstacleEvent(obstacleEventData)
-
         // Then
+        expect(getImageClassificationSpy).toHaveBeenCalledWith('someImageLink')
         expect(sendCommandSpy).toHaveBeenCalledWith(9, null, result)
+        expect(addObstacleEventSpy).toHaveBeenCalledWith('someImageLink', 2, 3, 'Human body')
         expect(result).toEqual(mockObstacleEventObj)
     })
 
@@ -57,8 +72,7 @@ describe('Obstacle Event Manager', () => {
             x: NaN,
             y: NaN
         }
-        jest
-            .spyOn(dependencies.dtoValidator, 'validateObstacleEventDto')
+        jest.spyOn(dependencies.dtoValidator, 'validateObstacleEventDto')
             .mockReturnValue(false)
 
         // When Then
