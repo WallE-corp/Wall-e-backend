@@ -41,7 +41,6 @@ module.exports = function ({ db, admin }) {
         if (docRef.exists) {
             docRef.update({
                 points: admin.firestore.FieldValue.arrayUnion({
-                    timestamp: Date.now(),
                     coordinates: coordinates
                 })
             }).then(() => {
@@ -52,7 +51,6 @@ module.exports = function ({ db, admin }) {
         } else {
             docRef.set({
                 points: admin.firestore.FieldValue.arrayUnion({
-                    timestamp: Date.now(),
                     coordinates: coordinates
                 })
             }).then(() => {
