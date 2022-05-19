@@ -81,8 +81,9 @@ class SocketIOServer {
     onMessage (client, message) {
         try {
             const messageData = JSON.parse(message)
+            console.log(messageData)
             const commandFunction = this.commandFunctions[`${messageData.type}`]
-            if (commandFunction) {
+            if (commandFunction !== undefined) {
                 commandFunction(client, messageData.data)
             } else {
                 this.io.to(this.wallEClientId).emit('message', JSON.stringify(messageData.data))
