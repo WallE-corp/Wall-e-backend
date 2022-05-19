@@ -6,8 +6,6 @@ const bodyParser = require('body-parser')
 
 const container = require('./awilix.container')
 
-
-
 const a = container.registrations
 console.log(a)
 // resolve the containers
