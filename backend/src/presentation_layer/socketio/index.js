@@ -93,7 +93,7 @@ class SocketIOServer {
         try {
             const messageData = JSON.parse(message)
             const commandFunction = this.commandFunctions[`${messageData.type}`]
-            commandFunction(client, messageData.data)
+            commandFunction(client, messageData)
             console.log(messageData)
         } catch (e) {
             console.log(e)
