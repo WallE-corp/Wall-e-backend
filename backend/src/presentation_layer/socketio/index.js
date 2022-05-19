@@ -45,7 +45,7 @@ class SocketIOServer {
 
     registerCommandFunctions () {
         // Registration request
-        this.commandFunctions[REGISTRATION] = (client, data) => {
+        this.commandFunctions[REGISTRATION] = (client, { data }) => {
             switch (data.role) {
             case 'remote':
                 this.registerClient(data.role, client.id)
