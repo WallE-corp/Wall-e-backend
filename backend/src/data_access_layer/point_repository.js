@@ -8,7 +8,7 @@ module.exports = function ({ db, admin }) {
             if (docSnap.empty) {
                 callback('NoExistingMap', null)
             } else {
-                callback(null, docSnap.data().PathPoints)
+                callback(null, docSnap.data().points)
             }
         }).catch((e) => {
             console.log(e)
