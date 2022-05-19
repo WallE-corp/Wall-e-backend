@@ -64,6 +64,12 @@ class SocketIOServer {
                 this.io.to(this.wallEClientId).emit('message', JSON.stringify(data))
             }
         }
+        // Movement request
+        this.commandFunctions[10] = (client, data) => {
+            if (this.remoteClientId && client.id === this.remoteClientId && this.wallEClientId) {
+                this.io.to(this.wallEClientId).emit('message', JSON.stringify(data))
+            }
+        }
         // Obstacle event
         this.commandFunctions[OBSTACLE_EVENT] = (client, data) => {
             if (this.remoteClientId) {
@@ -83,11 +89,7 @@ class SocketIOServer {
             const messageData = JSON.parse(message)
             console.log(messageData)
             const commandFunction = this.commandFunctions[`${messageData.type}`]
-            if (commandFunction) {
-                commandFunction(client, messageData.data)
-            } else {
-                this.io.to(this.remoteClientId).emit('message', JSON.stringify(messageData.data))
-            }
+            commandFunction(client, messageData.data)
             console.log(messageData)
         } catch (e) {
             console.log(e)
