@@ -62,6 +62,7 @@ class SocketIOServer {
         this.commandFunctions[MOVEMENT] = (client, data) => {
             if (this.remoteClientId && client.id === this.remoteClientId && this.wallEClientId) {
                 this.io.to(this.wallEClientId).emit('message', JSON.stringify(data))
+                console.log("Movement data sent")
             }
         }
         // Auto request
