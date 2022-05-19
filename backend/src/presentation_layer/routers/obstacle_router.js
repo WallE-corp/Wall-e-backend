@@ -12,6 +12,7 @@ module.exports = ({ obstacleEventManager }) => {
     const multerUpload = multer({ storage: multerStorageConfig })
 
     router.put('/event', multerUpload.single('image'), async (req, res, next) => {
+        console.log("Attempting to upload image")
         const obstacleEventData = {
             ...req.body,
             tmpImageFilePath: req.file.path
@@ -20,6 +21,7 @@ module.exports = ({ obstacleEventManager }) => {
             await obstacleEventManager.handleObstacleEvent(obstacleEventData)
             res.status(201).send('OK')
         } catch (e) {
+            console.log(e)
             res.status(500).send(e)
         }
     })
