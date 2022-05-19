@@ -64,10 +64,12 @@ class SocketIOServer {
                 this.io.to(this.wallEClientId).emit('message', JSON.stringify(data))
             }
         }
-        // Movement request
+        // Auto request
         this.commandFunctions[10] = (client, data) => {
             if (this.remoteClientId && client.id === this.remoteClientId && this.wallEClientId) {
+                data.type = 10
                 this.io.to(this.wallEClientId).emit('message', JSON.stringify(data))
+                console.log("Auto data sent")
             }
         }
         // Obstacle event
@@ -87,7 +89,6 @@ class SocketIOServer {
     onMessage (client, message) {
         try {
             const messageData = JSON.parse(message)
-            console.log(messageData)
             const commandFunction = this.commandFunctions[`${messageData.type}`]
             commandFunction(client, messageData.data)
             console.log(messageData)
