@@ -38,27 +38,15 @@ module.exports = function ({ db, admin }) {
 
     function addPoint (coordinates, callback) {
         const docRef = db.collection('maps').doc('mapTest')
-        if (docRef.exists) {
-            docRef.update({
-                points: admin.firestore.FieldValue.arrayUnion({
-                    coordinates: coordinates
-                })
-            }).then(() => {
-                callback(null, 200)
-            }).catch((error) => {
-                callback(error)
+        docRef.update({
+            points: admin.firestore.FieldValue.arrayUnion({
+                coordinates: coordinates
             })
-        } else {
-            docRef.set({
-                points: admin.firestore.FieldValue.arrayUnion({
-                    coordinates: coordinates
-                })
-            }).then(() => {
-                callback(null, 200)
-            }).catch((error) => {
-                callback(error)
-            })
-        }
+        }).then(() => {
+            callback(null, 200)
+        }).catch((error) => {
+            callback(error)
+        })
     }
 
     function getLastPoint () {
