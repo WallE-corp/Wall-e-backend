@@ -93,7 +93,11 @@ class SocketIOServer {
         try {
             const messageData = JSON.parse(message)
             const commandFunction = this.commandFunctions[`${messageData.type}`]
-            commandFunction(client, messageData)
+            if (commandFunction) {
+                commandFunction(client, messageData)
+            } else {
+                this.io.to(this.wallEClientId).emit('message', message)
+            }
             console.log(messageData)
         } catch (e) {
             console.log(e)
